@@ -1,0 +1,2870 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Casa de Umbanda C.E.U. Eparrey — Portal Oficial</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Cinzel', 'serif'],
+          },
+          colors: {
+            eparrey: {
+              black: '#09090B',
+              surface: '#121216',
+              card: '#18181F',
+              border: '#2A2A35',
+              red: '#991B1B',
+              crimson: '#DC2626',
+              deepred: '#680D0D',
+              gold: '#D4AF37',
+              amber: '#F59E0B',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #09090B;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FDE68A 0%, #D4AF37 50%, #B45309 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .red-gold-border {
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+    .hero-pattern {
+      background-image: radial-gradient(circle at 50% 0%, rgba(153, 27, 27, 0.35) 0%, rgba(9, 9, 11, 0.95) 70%);
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #09090B;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3F1515;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #7F1D1D;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.15); }
+    }
+    .status-dot {
+      animation: pulseGlow 2.2s infinite ease-in-out;
+    }
+    @keyframes kiumbaEyeBlink {
+      0%, 100% {
+        transform: scaleY(1);
+        opacity: 1;
+        filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.95));
+      }
+      45% {
+        transform: scaleY(0.08);
+        opacity: 0.25;
+        filter: drop-shadow(0 0 2px rgba(220, 38, 38, 0.3));
+      }
+      55% {
+        transform: scaleY(0.08);
+        opacity: 0.25;
+        filter: drop-shadow(0 0 2px rgba(220, 38, 38, 0.3));
+      }
+    }
+    .kiumba-thinking .kiumba-eye {
+      animation: kiumbaEyeBlink 0.45s infinite ease-in-out;
+      transform-origin: center;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-red-900 selection:text-amber-200">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-[calc(100%-2rem)] pointer-events-none"></div>
+
+  <!-- Top Live Status Bar -->
+  <div id="live-status-bar" class="bg-gradient-to-r from-black via-[#1c0909] to-black border-b border-amber-500/20 px-4 py-2.5 text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 text-center sm:text-left">
+        <span id="status-indicator-dot" class="w-3 h-3 rounded-full bg-emerald-500 status-dot shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
+        <span id="status-badge-label" class="font-bold uppercase tracking-wider text-emerald-400">Aberta para o Público</span>
+        <span class="text-zinc-500 hidden sm:inline">•</span>
+        <span id="status-message-text" class="text-zinc-200 font-medium">Gira aberta à assistência às 20h00 — Chegar com 30 min de antecedência.</span>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="btn-edit-status" onclick="openStatusModal()" class="hidden items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-medium transition cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          Alterar Status
+        </button>
+        <button id="top-admin-btn" onclick="openAdminGateModal()" class="hidden items-center gap-1 px-2.5 py-1 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-amber-500/30 text-[11px] text-amber-300/90 font-medium transition">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          Admin
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="sticky top-0 z-40 bg-[#09090B]/95 backdrop-blur-md border-b border-red-950/80 shadow-lg shadow-black/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 gap-3">
+        <!-- Official Crest & Title (Top Left) -->
+        <button onclick="switchTab('inicio')" class="flex items-center gap-3 sm:gap-3.5 text-left group focus:outline-none shrink-0">
+          <div id="header-crest-wrapper" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-amber-500/70 shadow-[0_0_22px_rgba(212,175,55,0.35)] group-hover:border-amber-400 transition shrink-0 bg-black flex items-center justify-center">
+            <img src="825351980_18109424087165226_4261091146939829996_n.jpg" onerror="this.onerror=null; this.src='https://placehold.co/150x150/180808/D4AF37?text=EPARREY';" alt="Brasão Oficial Casa de Umbanda C.E.U. Eparrey" class="w-full h-full object-cover rounded-full" />
+          </div>
+          <div>
+            <span class="block text-[9px] sm:text-[11px] uppercase tracking-[0.2em] text-amber-400/90 font-semibold">Caridade • Fé • Fundamento</span>
+            <h1 class="font-serif text-sm sm:text-lg xl:text-xl font-bold tracking-wide text-white leading-tight">
+              Casa de Umbanda <span class="gold-gradient-text">C.E.U. Eparrey</span>
+            </h1>
+          </div>
+        </button>
+
+        <!-- Top Right Login / Member Area + Corner 3-Bars Menu Button -->
+        <div class="flex items-center gap-2 shrink-0">
+          <!-- Guest Top Login Controls -->
+          <div id="top-guest-auth-bar" class="flex items-center gap-2">
+            <form onsubmit="handleQuickTopLogin(event)" class="hidden md:flex items-center gap-1.5 bg-zinc-950/90 border border-zinc-800 rounded-xl p-1">
+              <input type="text" id="quick-top-email" required placeholder="E-mail ou Nome" class="w-28 lg:w-32 px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500" />
+              <input type="password" id="quick-top-password" required placeholder="Senha" class="w-24 lg:w-28 px-2.5 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500" />
+              <button type="submit" class="px-3 py-1.5 rounded-lg bg-red-800 hover:bg-red-700 text-white text-xs font-semibold transition cursor-pointer">
+                Entrar
+              </button>
+            </form>
+            <button onclick="openTopAuthModal('login')" class="md:hidden px-3 py-2 rounded-xl bg-red-800 hover:bg-red-700 text-white text-xs font-semibold transition">
+              Entrar
+            </button>
+            <button onclick="openTopAuthModal('register')" class="px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 text-xs font-semibold transition">
+              Cadastrar
+            </button>
+          </div>
+
+          <!-- Logged-In Top Member Badge -->
+          <div id="top-logged-auth-bar" class="hidden">
+            <button onclick="toggleCornerDrawer()" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-red-950/60 hover:bg-red-900/60 border border-amber-500/40 text-left transition">
+              <div class="w-7 h-7 rounded-full bg-amber-500/20 border border-amber-400/50 flex items-center justify-center text-amber-300 font-serif font-bold text-xs" id="top-user-avatar">
+                CE
+              </div>
+              <div class="hidden sm:block">
+                <span id="top-user-name" class="block text-xs font-semibold text-white leading-tight">Membro</span>
+                <span id="top-user-role" class="block text-[10px] text-amber-300 leading-tight">Corrente</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Always-Visible Corner 3-Bars Drawer Button -->
+          <button onclick="toggleCornerDrawer()" id="corner-menu-btn" aria-label="Abrir Menu Lateral" title="Menu e Informações da Casa" class="p-2.5 rounded-xl bg-zinc-900 hover:bg-red-950/60 border border-amber-500/35 text-amber-300 transition flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Corner Slide-Over Drawer -->
+  <div id="corner-drawer-backdrop" onclick="closeCornerDrawer()" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-xs transition-opacity"></div>
+  <aside id="corner-drawer" aria-label="Painel Lateral de Navegação e Informações" class="fixed top-0 right-0 z-50 h-full w-80 sm:w-96 max-w-[90vw] bg-[#101015] border-l border-amber-500/30 shadow-2xl transform translate-x-full transition-transform duration-300 ease-out flex flex-col justify-between overflow-y-auto">
+    <div class="p-5 space-y-5">
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+        <div class="flex items-center gap-3">
+          <div id="drawer-crest-preview" class="w-11 h-11 rounded-full overflow-hidden border border-amber-500/60 shrink-0 bg-black flex items-center justify-center">
+            <img src="825351980_18109424087165226_4261091146939829996_n.jpg" onerror="this.onerror=null; this.src='https://placehold.co/150x150/180808/D4AF37?text=EPARREY';" alt="Brasão Oficial Casa de Umbanda C.E.U. Eparrey" class="w-full h-full object-cover rounded-full" />
+          </div>
+          <div>
+            <span class="block text-[10px] uppercase tracking-widest text-amber-400 font-semibold">Menu & Informações</span>
+            <h2 class="font-serif text-sm font-bold text-white">C.E.U. Eparrey</h2>
+          </div>
+        </div>
+        <button onclick="closeCornerDrawer()" aria-label="Fechar Menu" class="w-8 h-8 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center text-xl transition">&times;</button>
+      </div>
+
+      <!-- Current Member Box -->
+      <div id="drawer-member-card" class="hidden p-3.5 rounded-2xl bg-red-950/35 border border-amber-500/30 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <div>
+            <span id="drawer-user-fullname" class="block text-xs font-bold text-white">Membro</span>
+            <span id="drawer-user-rolefull" class="block text-[11px] text-amber-300 mt-0.5">Cargo</span>
+          </div>
+          <button onclick="logoutUser(); closeCornerDrawer()" class="px-2.5 py-1 rounded-lg bg-red-950 hover:bg-red-900 text-red-300 border border-red-800/60 text-[11px] font-semibold transition">
+            Sair
+          </button>
+        </div>
+        <button id="drawer-status-btn" onclick="closeCornerDrawer(); openStatusModal()" class="hidden w-full py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 text-xs font-semibold transition">
+          Alterar Status ao Vivo da Casa
+        </button>
+      </div>
+
+      <!-- Organized Navigation Links -->
+      <div class="space-y-1.5">
+        <span class="block px-2 text-[10px] uppercase tracking-widest text-zinc-500 font-semibold">Navegação do Portal</span>
+        <button onclick="switchTab('inicio'); closeCornerDrawer()" data-tab="inicio" class="nav-btn-mobile w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition">
+          <span>Início & Portfólio da Casa</span>
+          <span class="text-zinc-500 text-xs">→</span>
+        </button>
+        <button onclick="switchTab('avisos'); closeCornerDrawer()" data-tab="avisos" class="nav-btn-mobile w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition">
+          <span>Mural de Avisos & Giras</span>
+          <span class="text-zinc-500 text-xs">→</span>
+        </button>
+        <button onclick="switchTab('guias'); closeCornerDrawer()" data-tab="guias" class="nav-btn-mobile w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition">
+          <span>Cores de Guias & Fundamentos</span>
+          <span class="text-zinc-500 text-xs">→</span>
+        </button>
+        <button onclick="switchTab('kiumba'); closeCornerDrawer()" data-tab="kiumba" class="nav-btn-mobile w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition">
+          <span class="flex items-center gap-2">
+            <span>Kiumba (IA da Umbanda)</span>
+            <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold">IA</span>
+          </span>
+          <span class="text-zinc-500 text-xs">→</span>
+        </button>
+        <button onclick="switchTab('mensalidades'); closeCornerDrawer()" data-tab="mensalidades" class="nav-btn-mobile w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition">
+          <span>Mensalidades da Corrente</span>
+          <span class="text-xs text-amber-400 font-semibold" id="mobile-fee-tag">R$ 55,00</span>
+        </button>
+        <button onclick="closeCornerDrawer(); openTopAuthModal('login')" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-zinc-200 hover:bg-zinc-900 flex items-center justify-between transition">
+          <span>Login / Cadastro da Corrente</span>
+          <span class="text-zinc-500 text-xs">→</span>
+        </button>
+        <button id="drawer-admin-btn" onclick="switchTab('admin'); closeCornerDrawer()" data-tab="admin" class="nav-btn-mobile hidden w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium text-amber-400 hover:bg-zinc-900 flex items-center justify-between transition">
+          <span>Administração (Pais da Casa)</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        </button>
+      </div>
+
+      <!-- Quick House Info Panel inside the Corner Drawer -->
+      <div class="p-4 rounded-2xl bg-zinc-950 border border-zinc-800 space-y-3">
+        <span class="block text-[10px] uppercase tracking-widest text-amber-400 font-semibold">Informações Rápidas da Casa</span>
+        <div class="space-y-2 text-xs">
+          <div class="flex items-start justify-between gap-2">
+            <span class="text-zinc-500">Status Atual:</span>
+            <span id="drawer-live-status" class="font-semibold text-emerald-400 text-right">Aberta para o Público</span>
+          </div>
+          <div class="border-t border-zinc-900 pt-2">
+            <span class="text-zinc-500 block">Aviso do Momento:</span>
+            <p id="drawer-live-msg" class="text-zinc-300 mt-0.5 leading-relaxed">Gira aberta à assistência às 20h00.</p>
+          </div>
+          <div class="border-t border-zinc-900 pt-2">
+            <span class="text-zinc-500 block">Orientações à Assistência:</span>
+            <p class="text-zinc-400 mt-0.5 leading-relaxed">Atendimentos 100% gratuitos. Recomendamos roupas claras e respeitosas.</p>
+          </div>
+          <div class="border-t border-zinc-900 pt-2 flex items-center justify-between">
+            <span class="text-zinc-500">Mensalidade Corrente:</span>
+            <span id="drawer-fee-value" class="text-amber-300 font-semibold">R$ 55,00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 border-t border-zinc-900 text-center text-[11px] text-zinc-500">
+      Casa de Umbanda C.E.U. Eparrey • Eparrey Oyá!
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1">
+
+    <!-- ========================================================= -->
+    <!-- TAB 1: INÍCIO & PORTFÓLIO INSTITUCIONAL DA CASA           -->
+    <!-- ========================================================= -->
+    <section id="tab-inicio" class="tab-section">
+      <div class="hero-pattern border-b border-red-950/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/80 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-wider uppercase">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                Caridade • Fé • Respeito aos Ancestrais
+              </div>
+              <h2 class="font-serif text-3xl sm:text-5xl font-extrabold text-white leading-tight">
+                Casa de Umbanda <span class="gold-gradient-text block sm:inline">C.E.U. Eparrey</span>
+              </h2>
+              <p class="text-zinc-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                Um templo dedicado à caridade gratuita, ao acolhimento espiritual e à preservação dos fundamentos sagrados da Umbanda, sob a força transformadora dos ventos de Oyá.
+              </p>
+              <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
+                <button onclick="switchTab('avisos')" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white font-semibold text-sm shadow-lg shadow-red-950/60 border border-red-600/40 transition">
+                  Ver Próximas Giras
+                </button>
+                <button onclick="switchTab('guias')" class="px-6 py-3.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-amber-300 font-semibold text-sm border border-amber-500/35 transition">
+                  Ensinamentos & Guias
+                </button>
+                <button onclick="switchTab('kiumba')" class="px-6 py-3.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-semibold text-sm border border-amber-500/40 transition">
+                  Perguntar à IA Kiumba
+                </button>
+                <button onclick="openTopAuthModal('login')" class="px-6 py-3.5 rounded-xl bg-transparent hover:bg-white/5 text-zinc-200 font-medium text-sm border border-zinc-700 transition">
+                  Acesso da Corrente
+                </button>
+              </div>
+            </div>
+
+            <!-- Institutional Emblem Card -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div class="relative w-full max-w-sm bg-gradient-to-b from-[#1A1215] to-[#0E0E12] rounded-3xl p-7 red-gold-border shadow-2xl text-center space-y-5">
+                <div class="w-36 h-36 mx-auto rounded-full overflow-hidden border-2 border-amber-500/70 shadow-[0_0_35px_rgba(212,175,55,0.28)] bg-black flex items-center justify-center" id="hero-crest-preview">
+                  <img src="825351980_18109424087165226_4261091146939829996_n.jpg" onerror="this.onerror=null; this.src='https://placehold.co/150x150/180808/D4AF37?text=EPARREY';" alt="Brasão Oficial Casa de Umbanda C.E.U. Eparrey" class="w-full h-full object-cover rounded-full" />
+                </div>
+                <div class="space-y-1.5">
+                  <h3 class="font-serif text-xl font-bold text-white">C.E.U. Eparrey</h3>
+                  <p class="text-xs uppercase tracking-[0.2em] text-amber-400">Eparrey Oyá • Saravá Umbanda</p>
+                </div>
+                <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                  "Onde há caridade sincera, humildade e amor ao próximo, ali se manifesta a luz dos Orixás e dos Guias de Aruanda."
+                </p>
+                <div class="pt-2 border-t border-zinc-800/80 flex items-center justify-around text-xs text-zinc-300">
+                  <div>
+                    <span class="block font-bold text-amber-400 text-base">100%</span>
+                    <span>Caridade Gratuita</span>
+                  </div>
+                  <div class="h-8 w-px bg-zinc-800"></div>
+                  <div>
+                    <span class="block font-bold text-amber-400 text-base">Corrente</span>
+                    <span>Fé & Disciplina</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillars of the House -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-3">
+          <span class="text-xs uppercase tracking-[0.25em] text-amber-400 font-semibold">Nossa Missão Espiritual</span>
+          <h3 class="font-serif text-2xl sm:text-4xl font-bold text-white">Fundamentos, Caridade e Vivência</h3>
+          <p class="text-zinc-400 text-sm sm:text-base">
+            Conheça os pilares que sustentam os trabalhos espirituais e comunitários da Casa de Umbanda C.E.U. Eparrey.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-[#131318] rounded-2xl p-6 red-gold-border hover:border-amber-500/50 transition space-y-3">
+            <div class="w-11 h-11 rounded-xl bg-red-950 border border-red-800/60 flex items-center justify-center text-amber-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <h4 class="font-serif text-lg font-bold text-white">Giras & Atendimentos</h4>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Trabalhos semanais de passe, limpeza espiritual, descarrego e aconselhamento com Caboclos, Pretos Velhos, Baianos, Boiadeiros, Crianças e Guardiões.
+            </p>
+          </div>
+
+          <div class="bg-[#131318] rounded-2xl p-6 red-gold-border hover:border-amber-500/50 transition space-y-3">
+            <div class="w-11 h-11 rounded-xl bg-red-950 border border-red-800/60 flex items-center justify-center text-amber-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </div>
+            <h4 class="font-serif text-lg font-bold text-white">Estudo & Fundamento</h4>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Desenvolvimento mediúnico responsável, aprendizado sobre ervas, pontos cantados, firmezas e o significado sagrado das guias de trabalho.
+            </p>
+          </div>
+
+          <div class="bg-[#131318] rounded-2xl p-6 red-gold-border hover:border-amber-500/50 transition space-y-3">
+            <div class="w-11 h-11 rounded-xl bg-red-950 border border-red-800/60 flex items-center justify-center text-amber-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            </div>
+            <h4 class="font-serif text-lg font-bold text-white">Ações Sociais</h4>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Arrecadação contínua de cestas básicas, agasalhos e campanhas solidárias para amparar famílias em situação de vulnerabilidade na comunidade.
+            </p>
+          </div>
+
+          <div class="bg-[#131318] rounded-2xl p-6 red-gold-border hover:border-amber-500/50 transition space-y-3">
+            <div class="w-11 h-11 rounded-xl bg-red-950 border border-red-800/60 flex items-center justify-center text-amber-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+            </div>
+            <h4 class="font-serif text-lg font-bold text-white">Festas de Orixás</h4>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Celebrações tradicionais ao longo do calendário anual em louvor aos Orixás e às falanges espirituais, fortalecendo a união da corrente e da assistência.
+            </p>
+          </div>
+        </div>
+
+        <!-- Assistance Guidelines Banner -->
+        <div class="bg-gradient-to-r from-[#1A0B0E] via-[#15151C] to-[#1A0B0E] rounded-3xl p-6 sm:p-8 red-gold-border">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div class="space-y-2 max-w-2xl">
+              <span class="text-xs uppercase tracking-widest text-amber-400 font-semibold">Orientações à Assistência</span>
+              <h4 class="font-serif text-xl sm:text-2xl font-bold text-white">Como participar das Giras Públicas</h4>
+              <p class="text-sm text-zinc-300 leading-relaxed">
+                Todos os atendimentos na Casa de Umbanda C.E.U. Eparrey são inteiramente gratuitos. Recomendamos o uso de roupas claras e respeitosas (evitando trajes curtos ou decotados) e a chegada com antecedência para retirada de senha.
+              </p>
+            </div>
+            <button onclick="switchTab('avisos')" class="px-5 py-3 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 text-sm font-semibold shrink-0 transition">
+              Consultar Calendário no Mural →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 2: MURAL DE AVISOS (EDITÁVEL PELA LIDERANÇA)          -->
+    <!-- ========================================================= -->
+    <section id="tab-avisos" class="tab-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
+        <div>
+          <span class="text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Comunicação Oficial</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-1">Mural de Avisos & Giras</h2>
+          <p class="text-sm text-zinc-400 mt-1">Datas de trabalhos, giras abertas, giras internas e orientações para a corrente e assistência.</p>
+        </div>
+
+        <div id="notices-leader-actions" class="hidden">
+          <button onclick="openNoticeModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-sm font-semibold shadow-lg transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            Novo Aviso
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="flex flex-wrap gap-2">
+        <button onclick="filterNotices('todos')" data-notice-filter="todos" class="notice-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-red-800 text-white transition">Todos</button>
+        <button onclick="filterNotices('Assistência')" data-notice-filter="Assistência" class="notice-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-zinc-900 text-zinc-300 hover:bg-zinc-800 transition">Para Assistência</button>
+        <button onclick="filterNotices('Corrente')" data-notice-filter="Corrente" class="notice-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-zinc-900 text-zinc-300 hover:bg-zinc-800 transition">Para Corrente</button>
+        <button onclick="filterNotices('Festa / Evento')" data-notice-filter="Festa / Evento" class="notice-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-zinc-900 text-zinc-300 hover:bg-zinc-800 transition">Festas & Eventos</button>
+      </div>
+
+      <!-- Notices Grid -->
+      <div id="notices-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: ENSINAMENTOS DE CORES DE GUIAS & FUNDAMENTOS       -->
+    <!-- ========================================================= -->
+    <section id="tab-guias" class="tab-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
+        <div>
+          <span class="text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Doutrina & Fundamento</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-1">Cores de Guias e Significados</h2>
+          <p class="text-sm text-zinc-400 mt-1">Compreenda a vibração espiritual de cada guia, suas cores sagradas e os cuidados de consagração na Umbanda.</p>
+        </div>
+
+        <div id="guias-leader-actions" class="hidden">
+          <button onclick="openGuiaModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-sm font-semibold shadow-lg transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            Adicionar Ensinamento de Guia
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Quick Filter Bar -->
+      <div class="bg-[#131318] p-4 rounded-2xl red-gold-border space-y-3">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <svg class="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input
+              type="text"
+              id="guia-search-input"
+              oninput="renderGuias()"
+              placeholder="Buscar por cor ou Orixá (ex: Branca, Oxalá, Iansã, Vermelha, Ogum, Pretos Velhos...)"
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500"
+            />
+          </div>
+          <button onclick="clearGuiaSearch()" class="px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 text-xs font-semibold border border-zinc-700 transition">
+            Limpar Busca
+          </button>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <span class="text-zinc-500">Atalhos:</span>
+          <button onclick="quickSearchGuia('Branca')" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">Guia Branca (Oxalá)</button>
+          <button onclick="quickSearchGuia('Iansã')" class="px-2.5 py-1 rounded-lg bg-red-950/70 hover:bg-red-900/70 text-amber-200 border border-red-800/40 transition">Iansã / Oyá</button>
+          <button onclick="quickSearchGuia('Ogum')" class="px-2.5 py-1 rounded-lg bg-blue-950/70 hover:bg-blue-900/70 text-blue-200 border border-blue-800/40 transition">Ogum</button>
+          <button onclick="quickSearchGuia('Oxóssi')" class="px-2.5 py-1 rounded-lg bg-emerald-950/70 hover:bg-emerald-900/70 text-emerald-200 border border-emerald-800/40 transition">Oxóssi</button>
+          <button onclick="quickSearchGuia('Pretos Velhos')" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 transition">Pretos Velhos</button>
+          <button onclick="quickSearchGuia('Exu')" class="px-2.5 py-1 rounded-lg bg-red-950 hover:bg-red-900 text-red-200 transition">Guardiões (Exu/Pombagira)</button>
+        </div>
+      </div>
+
+      <!-- Guias Cards Grid -->
+      <div id="guias-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Fundamentos de Cuidado com as Guias -->
+      <div class="bg-[#131318] rounded-3xl p-6 sm:p-8 red-gold-border space-y-5">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          </div>
+          <div>
+            <h3 class="font-serif text-xl font-bold text-white">Fundamentos & Cuidados com as Guias</h3>
+            <p class="text-xs text-zinc-400">Zelo espiritual indispensável para todos os filhos da corrente</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-zinc-300">
+          <div class="p-4 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-1.5">
+            <strong class="text-amber-300 block">1. Consagração e Cruzamento</strong>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              Toda guia só adquire proteção espiritual plena após ser lavada com ervas apropriadas e cruzada na firmeza da casa pela chefia espiritual.
+            </p>
+          </div>
+          <div class="p-4 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-1.5">
+            <strong class="text-amber-300 block">2. Respeito e Guarda</strong>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              Nunca deixe suas guias jogadas no chão, em bolsos ou locais impuros. Guarde-as em local limpo, elevado ou em saquinho de tecido branco reservado.
+            </p>
+          </div>
+          <div class="p-4 rounded-2xl bg-zinc-950/80 border border-zinc-800 space-y-1.5">
+            <strong class="text-amber-300 block">3. Se a Guia Arrebentar</strong>
+            <p class="text-xs text-zinc-400 leading-relaxed">
+              Quando uma guia se rompe durante o trabalho, geralmente absorveu uma carga negativa destinada ao médium. Recolha as contas com respeito e entregue à chefia.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3.5: KIUMBA — INTELIGÊNCIA ARTIFICIAL DA UMBANDA      -->
+    <!-- ========================================================= -->
+    <section id="tab-kiumba" class="tab-section hidden max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-4 sm:space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800 pb-4 sm:pb-6">
+        <div>
+          <span class="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Sabedoria & Estudo Espiritual</span>
+          <h2 class="font-serif text-xl sm:text-3xl font-bold text-white mt-1 flex flex-wrap items-center gap-2 sm:gap-3">
+            <span>Kiumba</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-red-950 border border-amber-500/40 text-amber-300 text-[11px] sm:text-xs font-sans font-semibold">IA Especialista em Umbanda</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-zinc-400 mt-1">
+            Tire qualquer dúvida sobre Orixás, linhas de trabalho, ervas, banhos, pontos riscados, preceitos, história e fundamentos da Umbanda.
+          </p>
+        </div>
+        <button onclick="clearKiumbaChat()" class="px-3.5 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold self-start sm:self-auto transition">
+          Limpar Conversa
+        </button>
+      </div>
+
+      <!-- Kiumba Shadow Entity Visual -->
+      <div id="kiumba-entity-stage" class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-b from-black via-[#120709] to-black border border-amber-500/30 p-4 sm:p-6 flex flex-row sm:flex-col items-center justify-center gap-4 sm:gap-2 text-left sm:text-center shadow-2xl">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(220,38,38,0.18),transparent_65%)] pointer-events-none"></div>
+        <div class="relative w-20 h-20 sm:w-36 sm:h-36 shrink-0 flex items-center justify-center">
+          <svg viewBox="0 0 160 160" class="w-full h-full drop-shadow-[0_0_24px_rgba(0,0,0,0.95)]" aria-hidden="true">
+            <defs>
+              <radialGradient id="kiumbaAura" cx="50%" cy="45%" r="50%">
+                <stop offset="0%" stop-color="#7F1D1D" stop-opacity="0.45" />
+                <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <circle cx="80" cy="80" r="74" fill="url(#kiumbaAura)" />
+            <!-- Silhueta negra encapuzada -->
+            <path d="M80 18 C52 18, 36 42, 34 74 C32 104, 22 128, 16 146 L144 146 C138 128, 128 104, 126 74 C124 42, 108 18, 80 18 Z" fill="#050507" stroke="#27272A" stroke-width="1.5" />
+            <!-- Rosto sombrio interno -->
+            <ellipse cx="80" cy="68" rx="26" ry="32" fill="#000000" />
+            <!-- Olhos brilhantes que piscam durante a resposta -->
+            <g class="kiumba-eye">
+              <ellipse cx="68" cy="66" rx="6.5" ry="3.2" fill="#FBBF24" />
+              <circle cx="68" cy="66" r="1.8" fill="#FFFFFF" />
+            </g>
+            <g class="kiumba-eye">
+              <ellipse cx="92" cy="66" rx="6.5" ry="3.2" fill="#FBBF24" />
+              <circle cx="92" cy="66" r="1.8" fill="#FFFFFF" />
+            </g>
+          </svg>
+        </div>
+        <div class="relative z-10 space-y-1">
+          <span class="block font-serif text-sm sm:text-base font-bold text-white sm:hidden">Oráculo Kiumba</span>
+          <span id="kiumba-status-caption" class="inline-flex items-center gap-2 text-[11px] sm:text-xs font-semibold uppercase tracking-wider sm:tracking-widest text-amber-400">
+            <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
+            Kiumba em vigília • Pronto para responder
+          </span>
+        </div>
+      </div>
+
+      <!-- Suggested Questions (Horizontal scroll on mobile for comfort) -->
+      <div class="bg-[#131318] p-3.5 sm:p-4 rounded-2xl red-gold-border space-y-2">
+        <span class="block text-[10px] sm:text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">Toque em uma pergunta rápida:</span>
+        <div class="flex sm:flex-wrap gap-2 overflow-x-auto pb-1 sm:pb-0">
+          <button type="button" onclick="askKiumbaSuggestion('Qual a diferença entre Orixás e Guias de trabalho na Umbanda?')" class="shrink-0 sm:shrink px-3 py-2 rounded-xl bg-zinc-950 hover:bg-red-950/60 border border-zinc-800 hover:border-amber-500/40 text-xs text-zinc-200 transition text-left">
+            Orixás x Guias de trabalho
+          </button>
+          <button type="button" onclick="askKiumbaSuggestion('Como preparar e tomar um banho de ervas de descarrego corretamente?')" class="shrink-0 sm:shrink px-3 py-2 rounded-xl bg-zinc-950 hover:bg-red-950/60 border border-zinc-800 hover:border-amber-500/40 text-xs text-zinc-200 transition text-left">
+            Como tomar banho de ervas
+          </button>
+          <button type="button" onclick="askKiumbaSuggestion('Quem é Iansã (Oyá) na Umbanda e quais são seus fundamentos?')" class="shrink-0 sm:shrink px-3 py-2 rounded-xl bg-zinc-950 hover:bg-red-950/60 border border-zinc-800 hover:border-amber-500/40 text-xs text-zinc-200 transition text-left">
+            Fundamentos de Iansã (Oyá)
+          </button>
+          <button type="button" onclick="askKiumbaSuggestion('O que significa o termo Kiumba na Umbanda e como ocorre o encaminhamento espiritual?')" class="shrink-0 sm:shrink px-3 py-2 rounded-xl bg-zinc-950 hover:bg-red-950/60 border border-zinc-800 hover:border-amber-500/40 text-xs text-zinc-200 transition text-left">
+            O que é um Kiumba na Umbanda?
+          </button>
+          <button type="button" onclick="askKiumbaSuggestion('Quais são as sete linhas da Umbanda e suas irradiações?')" class="shrink-0 sm:shrink px-3 py-2 rounded-xl bg-zinc-950 hover:bg-red-950/60 border border-zinc-800 hover:border-amber-500/40 text-xs text-zinc-200 transition text-left">
+            As Sete Linhas da Umbanda
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat Window -->
+      <div class="bg-[#131318] rounded-2xl sm:rounded-3xl red-gold-border shadow-2xl overflow-hidden flex flex-col">
+        <div id="kiumba-chat-messages" class="p-3.5 sm:p-6 space-y-4 h-[52vh] min-h-[320px] max-h-[520px] overflow-y-auto">
+          <!-- Initial Greeting -->
+          <div class="flex items-start gap-2.5 sm:gap-3">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-red-950 border border-amber-500/50 flex items-center justify-center text-amber-300 font-serif font-bold text-xs shrink-0">
+              KM
+            </div>
+            <div class="bg-zinc-950 border border-zinc-800 rounded-2xl rounded-tl-none p-3.5 sm:p-4 text-xs sm:text-sm text-zinc-200 leading-relaxed max-w-3xl space-y-2">
+              <strong class="block text-amber-400 text-[11px] sm:text-xs uppercase tracking-wider">Kiumba • Assistente Doutrinário</strong>
+              <p>
+                Saravá! Eu sou <strong>Kiumba</strong>, a inteligência artificial de estudos da <strong>Casa de Umbanda C.E.U. Eparrey</strong>. Pode me fazer qualquer pergunta sobre Umbanda — Orixás, falanges, ervas, banhos, firmezas, médiuns, cambones, ogãs, preceitos ou história da religião. Como posso ajudar hoje?
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Bar (Mobile-friendly height & font size) -->
+        <form onsubmit="handleKiumbaSubmit(event)" class="p-3 sm:p-4 bg-zinc-950 border-t border-zinc-800 flex items-center gap-2">
+          <input
+            type="text"
+            id="kiumba-user-input"
+            required
+            autocomplete="off"
+            placeholder="Pergunte algo sobre Umbanda..."
+            class="flex-1 min-w-0 px-3.5 sm:px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500"
+          />
+          <button
+            type="submit"
+            id="kiumba-send-btn"
+            class="px-4 sm:px-5 py-3 rounded-xl bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 disabled:opacity-50 text-white text-xs sm:text-sm font-semibold shadow-lg transition shrink-0 flex items-center gap-1.5"
+          >
+            <span>Enviar</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 4: MENSALIDADES DA CORRENTE                           -->
+    <!-- ========================================================= -->
+    <section id="tab-mensalidades" class="tab-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
+        <div>
+          <span class="text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Sustentação & Zeladoria do Templo</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-1">Mensalidades da Corrente</h2>
+          <p class="text-sm text-zinc-400 mt-1">Contribuição mensal dos filhos da casa para manutenção do espaço sagrado, velas, ervas e infraestrutura.</p>
+        </div>
+
+        <div id="fee-leader-actions" class="flex flex-wrap items-center gap-2">
+          <button id="btn-config-fee" onclick="openFeeConfigModal()" class="hidden items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 text-xs font-semibold transition">
+            Editar Valor / Chave PIX
+          </button>
+        </div>
+      </div>
+
+      <!-- Fee & PIX Info Card + Month Selector -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="bg-[#131318] rounded-2xl p-6 red-gold-border flex flex-col justify-between space-y-4">
+          <div>
+            <span class="text-xs uppercase tracking-wider text-zinc-400">Valor Atual da Mensalidade</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="display-fee-amount" class="font-serif text-3xl sm:text-4xl font-extrabold text-amber-400">R$ 55,00</span>
+              <span class="text-xs text-zinc-400">/ mês</span>
+            </div>
+          </div>
+          <p class="text-xs text-zinc-400 leading-relaxed">
+            Contribuição destinada exclusivamente à manutenção do templo. Os atendimentos à assistência permanecem sempre gratuitos.
+          </p>
+        </div>
+
+        <div class="bg-[#131318] rounded-2xl p-6 red-gold-border flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <span class="text-xs uppercase tracking-wider text-zinc-400">Chave PIX Oficial da Casa</span>
+            <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-between gap-2">
+              <code id="display-pix-key" class="text-xs sm:text-sm text-amber-300 font-mono truncate">financeiro@ceueparrey.org.br</code>
+              <button onclick="copyPixKey()" class="px-3 py-1.5 rounded-lg bg-red-800 hover:bg-red-700 text-white text-xs font-semibold shrink-0 transition">
+                Copiar PIX
+              </button>
+            </div>
+            <p class="text-[11px] text-zinc-500" id="display-pix-holder">Favorecido: Casa de Umbanda C.E.U. Eparrey</p>
+          </div>
+        </div>
+
+        <div class="bg-[#131318] rounded-2xl p-6 red-gold-border flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <label for="fee-month-select" class="block text-xs uppercase tracking-wider text-zinc-400">Mês / Ano de Referência</label>
+            <select id="fee-month-select" onchange="renderMensalidades()" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-sm text-white focus:outline-none focus:border-amber-500">
+              <!-- Populated by JS -->
+            </select>
+          </div>
+          <p class="text-xs text-zinc-400">
+            Consulte meses anteriores ou futuros para acompanhar o histórico completo de pagamentos.
+          </p>
+        </div>
+      </div>
+
+      <!-- Dynamic Content Based on Auth / Role -->
+      <div id="mensalidades-content">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 5: PAINEL EXCLUSIVO DOS PAIS DA CASA / ADMINISTRADOR  -->
+    <!-- ========================================================= -->
+    <section id="tab-admin" class="tab-section hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      <!-- Restriction Notice for Non-Parents -->
+      <div id="admin-denied-screen" class="hidden max-w-md mx-auto bg-[#131318] rounded-2xl p-6 sm:p-8 border border-red-800/60 shadow-2xl text-center space-y-4">
+        <div class="w-14 h-14 rounded-2xl bg-red-950 border border-red-700/50 flex items-center justify-center text-red-400 mx-auto">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        </div>
+        <h2 class="font-serif text-xl font-bold text-white">Acesso Exclusivo aos Pais da Casa</h2>
+        <p class="text-xs text-zinc-400 leading-relaxed">
+          Apenas a <strong>Mãe da Casa</strong>, <strong>Pai da Casa</strong>, <strong>Mãe Menor</strong> e <strong>Pai Menor</strong> têm permissão para acessar o Painel Administrativo e alterar senhas dos membros ou cargos da corrente.
+        </p>
+        <button onclick="openTopAuthModal('login')" class="w-full py-3 rounded-xl bg-red-800 hover:bg-red-700 text-white text-xs font-semibold transition">
+          Entrar como Mãe/Pai da Casa ou Mãe/Pai Menor
+        </button>
+      </div>
+
+      <!-- Master Password Gate (Fallback if manually locked by Parents) -->
+      <div id="admin-lock-screen" class="max-w-md mx-auto bg-[#131318] rounded-2xl p-6 sm:p-8 red-gold-border shadow-2xl space-y-6">
+        <div class="text-center space-y-2">
+          <div class="w-14 h-14 rounded-2xl bg-red-950 border border-amber-500/40 flex items-center justify-center text-amber-400 mx-auto">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          </div>
+          <h2 class="font-serif text-2xl font-bold text-white">Administração Geral</h2>
+          <p class="text-xs text-zinc-400">
+            Área restrita exclusivamente à <strong>Mãe da Casa, Pai da Casa, Mãe Menor e Pai Menor</strong> para gestão de senhas e configurações da casa.
+          </p>
+        </div>
+
+        <form onsubmit="unlockAdminPanel(event)" class="space-y-4">
+          <div>
+            <label for="master-password-input" class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">Senha Mestra dos Pais da Casa</label>
+            <input type="password" id="master-password-input" required placeholder="Digite a Senha Mestra" class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+          </div>
+          <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-black font-bold text-sm shadow-lg transition">
+            Desbloquear Painel Administrativo
+          </button>
+        </form>
+      </div>
+
+      <!-- Unlocked Admin Dashboard -->
+      <div id="admin-dashboard-content" class="hidden space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
+          <div>
+            <span class="text-xs uppercase tracking-[0.2em] text-amber-400 font-semibold">Controle Exclusivo • Mãe/Pai da Casa & Mãe/Pai Menor</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-1">Painel Administrativo</h2>
+            <p class="text-sm text-zinc-400">Desbloqueado automaticamente para Mãe da Casa, Pai da Casa, Mãe Menor e Pai Menor.</p>
+          </div>
+          <button onclick="lockAdminPanel()" class="px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs font-semibold self-start sm:self-auto transition">
+            Bloquear Painel Admin
+          </button>
+        </div>
+
+        <!-- Architecture & Security Notice -->
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 flex items-start gap-4">
+          <div class="text-amber-400 shrink-0 mt-0.5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <div class="text-xs sm:text-sm text-zinc-200 space-y-1">
+            <strong class="text-amber-300 block">Aviso de Segurança & Armazenamento de Dados:</strong>
+            <p class="text-zinc-300 leading-relaxed">
+              Este portal armazena as configurações, cadastros e mensalidades localmente no navegador (<code class="text-amber-200">localStorage</code>) para funcionamento imediato e demonstração. Altere a <strong>Senha Mestra</strong> abaixo para proteger seu dispositivo. Para operação oficial em produção com múltiplos celulares e dados financeiros reais da corrente, recomenda-se conectar este front-end a um banco de dados e autenticação em nuvem (como <strong>Supabase</strong> ou <strong>Firebase</strong>).
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- Left Column: Special Passwords for Leadership Roles -->
+          <div class="lg:col-span-7 bg-[#131318] rounded-2xl p-6 sm:p-8 red-gold-border space-y-6">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+              <div>
+                <h3 class="font-serif text-xl font-bold text-white">Senhas Especiais dos Cargos de Chefia</h3>
+                <p class="text-xs text-zinc-400 mt-0.5">Apenas o administrador pode visualizar, cadastrar ou alterar estas senhas.</p>
+              </div>
+              <button type="button" onclick="toggleRevealRolePasswords()" id="btn-reveal-passwords" class="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 text-xs text-amber-300 hover:bg-zinc-800 transition">
+                Mostrar Senhas
+              </button>
+            </div>
+
+            <form onsubmit="saveLeadershipPasswords(event)" class="space-y-4">
+              <div id="leadership-passwords-fields" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Populated by JS for the 6 leadership roles -->
+              </div>
+              <div class="pt-3 flex justify-end">
+                <button type="submit" class="px-6 py-3 rounded-xl bg-red-700 hover:bg-red-600 text-white text-sm font-semibold shadow-lg transition">
+                  Salvar Senhas dos Cargos
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right Column: Master Password + Official Crest Upload -->
+          <div class="lg:col-span-5 space-y-6">
+            <!-- Change Master Password -->
+            <div class="bg-[#131318] rounded-2xl p-6 border border-zinc-800 space-y-4">
+              <h3 class="font-serif text-lg font-bold text-amber-300">Alterar Senha Mestra</h3>
+              <p class="text-xs text-zinc-400">Defina uma nova senha mestra exclusiva do proprietário/administrador da casa.</p>
+              <form onsubmit="changeMasterPassword(event)" class="space-y-3">
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Nova Senha Mestra</label>
+                  <input type="password" id="new-master-password" required minlength="4" placeholder="Digite a nova senha mestra" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+                </div>
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Confirmar Nova Senha Mestra</label>
+                  <input type="password" id="confirm-master-password" required minlength="4" placeholder="Repita a nova senha mestra" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+                </div>
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition">
+                  Atualizar Senha Mestra
+                </button>
+              </form>
+            </div>
+
+            <!-- Upload Official Circular Crest -->
+            <div class="bg-[#131318] rounded-2xl p-6 border border-zinc-800 space-y-4">
+              <h3 class="font-serif text-lg font-bold text-white">Brasão Oficial da Casa</h3>
+              <p class="text-xs text-zinc-400">
+                Substitua o brasão padrão pela imagem circular oficial da Casa de Umbanda C.E.U. Eparrey (exibida no topo esquerdo e no rodapé).
+              </p>
+              <div class="flex items-center gap-4">
+                <div id="admin-crest-preview" class="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-500/60 shrink-0 bg-black flex items-center justify-center">
+                  <img src="825351980_18109424087165226_4261091146939829996_n.jpg" onerror="this.onerror=null; this.src='https://placehold.co/150x150/180808/D4AF37?text=EPARREY';" alt="Brasão Oficial Casa de Umbanda C.E.U. Eparrey" class="w-full h-full object-cover rounded-full" />
+                </div>
+                <div class="space-y-2 flex-1">
+                  <label class="block w-full text-center px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs text-white font-semibold cursor-pointer transition">
+                    Carregar Nova Imagem Circular
+                    <input type="file" accept="image/*" onchange="handleCrestUpload(event)" class="hidden" />
+                  </label>
+                  <button type="button" onclick="resetDefaultCrest()" class="w-full text-center text-[11px] text-zinc-400 hover:text-amber-300 transition">
+                    Restaurar Brasão Oficial da Casa
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Member Password Management (Exclusively for Pais da Casa) -->
+        <div class="bg-[#131318] rounded-2xl p-6 sm:p-8 red-gold-border space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-4">
+            <div>
+              <h3 class="font-serif text-xl font-bold text-white">Gerenciar Senhas dos Membros da Corrente</h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Apenas a Mãe da Casa, Pai da Casa, Mãe Menor e Pai Menor podem redefinir a senha pessoal ou remover membros cadastrados.</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="admin-members-count" class="text-xs text-amber-400 font-semibold">0 membros cadastrados</span>
+              <button type="button" onclick="clearAllRegistrations()" class="px-3 py-1.5 rounded-lg bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-800/60 text-xs font-semibold transition">
+                Remover Todos
+              </button>
+            </div>
+          </div>
+          <div id="admin-members-list" class="space-y-3">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- FOOTER                                                    -->
+  <!-- ========================================================= -->
+  <footer class="bg-[#060608] border-t border-red-950/70 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+        <!-- Crest & Name -->
+        <div class="flex items-center gap-4">
+          <div id="footer-crest-wrapper" class="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-500/60 shrink-0 bg-black flex items-center justify-center">
+            <img src="825351980_18109424087165226_4261091146939829996_n.jpg" onerror="this.onerror=null; this.src='https://placehold.co/150x150/180808/D4AF37?text=EPARREY';" alt="Brasão Oficial Casa de Umbanda C.E.U. Eparrey" class="w-full h-full object-cover rounded-full" />
+          </div>
+          <div>
+            <h3 class="font-serif text-lg font-bold text-white">Casa de Umbanda <span class="text-amber-400">C.E.U. Eparrey</span></h3>
+            <p class="text-xs text-zinc-400 mt-1">Fé, Caridade, Respeito e Fundamento.</p>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="flex flex-wrap justify-start md:justify-center gap-4 text-xs text-zinc-400">
+          <button onclick="switchTab('inicio')" class="hover:text-amber-300 transition">Início</button>
+          <button onclick="switchTab('avisos')" class="hover:text-amber-300 transition">Mural de Avisos</button>
+          <button onclick="switchTab('guias')" class="hover:text-amber-300 transition">Cores de Guias</button>
+          <button onclick="switchTab('kiumba')" class="hover:text-amber-300 transition">IA Kiumba</button>
+          <button onclick="switchTab('mensalidades')" class="hover:text-amber-300 transition">Mensalidades</button>
+          <button onclick="openTopAuthModal('login')" class="hover:text-amber-300 transition">Entrar / Cadastrar</button>
+        </div>
+
+        <!-- Live Status Summary -->
+        <div class="md:text-right space-y-1">
+          <span class="block text-xs uppercase tracking-wider text-zinc-500">Status Atual do Terreiro</span>
+          <span id="footer-status-text" class="text-sm font-semibold text-emerald-400">Aberta para o Público</span>
+          <p class="text-[11px] text-zinc-500">Todos os atendimentos espirituais são gratuitos.</p>
+        </div>
+      </div>
+      <div class="border-t border-zinc-900 mt-8 pt-6 text-center text-xs text-zinc-500">
+        © 2026 Casa de Umbanda C.E.U. Eparrey — Todos os direitos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================= -->
+  <!-- MODALS (TOP AUTH MODAL + MANAGEMENT MODALS)               -->
+  <!-- ========================================================= -->
+
+  <!-- Modal 0: Top Login & Registration Modal -->
+  <div id="top-auth-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-start justify-center p-4 pt-16 sm:pt-20 overflow-y-auto">
+    <div class="bg-[#131318] border border-amber-500/35 rounded-2xl max-w-xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+        <div class="flex items-center gap-3">
+          <div id="modal-crest-preview" class="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-500/60 shrink-0 bg-black flex items-center justify-center">
+            <img src="825351980_18109424087165226_4261091146939829996_n.jpg" onerror="this.onerror=null; this.src='https://placehold.co/150x150/180808/D4AF37?text=EPARREY';" alt="Brasão Oficial Casa de Umbanda C.E.U. Eparrey" class="w-full h-full object-cover rounded-full" />
+          </div>
+          <div>
+            <h3 class="font-serif text-lg font-bold text-white">Casa de Umbanda <span class="text-amber-400">C.E.U. Eparrey</span></h3>
+            <p class="text-xs text-zinc-400">Acesso da Corrente e Hierarquia</p>
+          </div>
+        </div>
+        <button onclick="closeModal('top-auth-modal')" class="w-8 h-8 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white flex items-center justify-center text-xl">&times;</button>
+      </div>
+
+      <!-- Mode Switcher -->
+      <div class="grid grid-cols-2 gap-2 p-1.5 rounded-xl bg-zinc-950 border border-zinc-800">
+        <button type="button" id="modal-auth-tab-login" onclick="switchTopModalAuthTab('login')" class="py-2.5 rounded-lg text-xs sm:text-sm font-semibold bg-red-800 text-white transition">
+          Entrar na Conta
+        </button>
+        <button type="button" id="modal-auth-tab-register" onclick="switchTopModalAuthTab('register')" class="py-2.5 rounded-lg text-xs sm:text-sm font-semibold text-zinc-400 hover:text-white transition">
+          Novo Cadastro
+        </button>
+      </div>
+
+      <!-- Modal Login Form -->
+      <form id="modal-login-form" onsubmit="handleModalLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">E-mail ou Nome Cadastrado</label>
+          <input type="text" id="modal-login-email" required placeholder="seuemail@exemplo.com" class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Senha Pessoal</label>
+          <input type="password" id="modal-login-password" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white font-semibold text-sm shadow-lg transition">
+          Entrar no Portal
+        </button>
+      </form>
+
+      <!-- Modal Register Form -->
+      <form id="modal-register-form" onsubmit="handleModalRegister(event)" class="hidden space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Nome Completo *</label>
+            <input type="text" id="modal-reg-name" required placeholder="Seu nome" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">E-mail *</label>
+            <input type="email" id="modal-reg-email" required placeholder="seuemail@exemplo.com" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Crie sua Senha Pessoal *</label>
+          <input type="password" id="modal-reg-password" required minlength="4" placeholder="Mínimo 4 caracteres" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1.5">Posição / Cargo na Casa *</label>
+          <select id="modal-reg-role" onchange="handleModalRoleChange()" required class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500">
+            <option value="">-- Selecione sua posição na casa --</option>
+            <optgroup label="Corrente">
+              <option value="Filho(a) da Casa">Filho(a) da Casa</option>
+              <option value="Ogã">Ogã</option>
+            </optgroup>
+            <optgroup label="Cargos de Chefia (Exigem Senha Especial 🔒)">
+              <option value="Mãe da Casa">🔒 Mãe da Casa</option>
+              <option value="Pai da Casa">🔒 Pai da Casa</option>
+              <option value="Mãe Menor">🔒 Mãe Menor</option>
+              <option value="Pai Menor">🔒 Pai Menor</option>
+              <option value="Ogã Chefe">🔒 Ogã Chefe</option>
+              <option value="Cambone Chefe">🔒 Cambone Chefe</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <!-- Sub-choice for Filho(a) da Casa -->
+        <div id="modal-filho-subrole-container" class="hidden p-3.5 rounded-xl bg-zinc-950 border border-amber-500/40 space-y-2.5">
+          <label class="block text-xs font-semibold uppercase tracking-wider text-amber-300">Escolha sua atuação como Filho(a) da Casa *</label>
+          <div class="grid grid-cols-2 gap-2.5">
+            <label class="flex items-center gap-2.5 p-2.5 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-amber-500 cursor-pointer">
+              <input type="radio" name="modal-reg-subrole" value="Rodante" class="accent-red-600 w-4 h-4" />
+              <div>
+                <span class="block text-xs font-bold text-white">Rodante</span>
+                <span class="block text-[10px] text-zinc-400">Médium de incorporação</span>
+              </div>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-amber-500 cursor-pointer">
+              <input type="radio" name="modal-reg-subrole" value="Cambone" class="accent-red-600 w-4 h-4" />
+              <div>
+                <span class="block text-xs font-bold text-white">Cambone</span>
+                <span class="block text-[10px] text-zinc-400">Auxiliar dos guias</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Special Password for Leadership Roles -->
+        <div id="modal-leadership-secret-container" class="hidden p-3.5 rounded-xl bg-red-950/35 border border-red-700/60 space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <label class="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-red-300">
+              <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+              <span>Senha Especial (<span id="modal-selected-leadership-label">Chefia</span>) *</span>
+            </label>
+          </div>
+          <input type="password" id="modal-reg-special-password" placeholder="Solicite a senha especial aos Pais da Casa" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-red-700/70 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-white font-semibold text-sm shadow-lg transition">
+          Concluir Cadastro na Casa
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 1: Live Terreiro Status Editor -->
+  <div id="status-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#141419] border border-amber-500/30 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <h3 class="font-serif text-lg font-bold text-white">Status ao Vivo do Terreiro</h3>
+        <button onclick="closeModal('status-modal')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="saveLiveStatus(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Situação da Casa</label>
+          <select id="modal-status-state" class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500">
+            <option value="aberta">Aberta para o Público (Verde)</option>
+            <option value="interna">Gira Interna / Somente Corrente (Dourado)</option>
+            <option value="fechada">Fechada para o Público (Vermelho)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Aviso Curto em Tempo Real</label>
+          <input type="text" id="modal-status-msg" required maxlength="110" placeholder="Ex: Gira aberta à assistência às 20h00" class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('status-modal')" class="px-4 py-2.5 rounded-xl bg-zinc-900 text-zinc-300 text-xs font-semibold">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-semibold">Atualizar Status</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Add/Edit Notice -->
+  <div id="notice-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#141419] border border-amber-500/30 rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <h3 id="notice-modal-title" class="font-serif text-lg font-bold text-white">Novo Aviso no Mural</h3>
+        <button onclick="closeModal('notice-modal')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="saveNotice(event)" class="space-y-4">
+        <input type="hidden" id="notice-edit-id" />
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Título do Aviso *</label>
+          <input type="text" id="notice-title" required placeholder="Ex: Gira de Caboclos e Boiadeiros" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Data / Horário *</label>
+            <input type="text" id="notice-date" required placeholder="Ex: Sábado, 20h00" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Público-Alvo *</label>
+            <select id="notice-category" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500">
+              <option value="Assistência">Assistência</option>
+              <option value="Corrente">Corrente</option>
+              <option value="Festa / Evento">Festa / Evento</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Descrição e Orientações *</label>
+          <textarea id="notice-content" rows="4" required placeholder="Detalhes sobre entrega de senhas, traje recomendado, preceitos..." class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('notice-modal')" class="px-4 py-2.5 rounded-xl bg-zinc-900 text-zinc-300 text-xs font-semibold">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-semibold">Salvar Aviso</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add New Guia Teaching -->
+  <div id="guia-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#141419] border border-amber-500/30 rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <h3 class="font-serif text-lg font-bold text-white">Adicionar Ensinamento de Guia</h3>
+        <button onclick="closeModal('guia-modal')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="saveNewGuia(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Orixá ou Linha Espiritual *</label>
+          <input type="text" id="new-guia-orixa" required placeholder="Ex: Oxalá, Iansã (Oyá), Pretos Velhos..." class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Cor(es) da Guia *</label>
+          <input type="text" id="new-guia-color-name" required placeholder="Ex: Branca leitosa / Cristal" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Cor Principal das Contas</label>
+            <input type="color" id="new-guia-hex1" value="#FFFFFF" class="w-full h-10 rounded-xl bg-zinc-950 border border-zinc-700 cursor-pointer" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Segunda Cor (Opcional)</label>
+            <input type="color" id="new-guia-hex2" value="#DC2626" class="w-full h-10 rounded-xl bg-zinc-950 border border-zinc-700 cursor-pointer" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Significado Espiritual & Irradiação *</label>
+          <textarea id="new-guia-meaning" rows="3" required placeholder="Explique a vibração espiritual, proteção e sentido dessa cor..." class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Fundamento / Observação</label>
+          <input type="text" id="new-guia-care" placeholder="Ex: Saudação: Eparrey Oyá! Dia da semana: Quarta-feira." class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('guia-modal')" class="px-4 py-2.5 rounded-xl bg-zinc-900 text-zinc-300 text-xs font-semibold">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-semibold">Salvar Ensinamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Fee & PIX Configuration (Leadership) -->
+  <div id="fee-config-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#141419] border border-amber-500/30 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <h3 class="font-serif text-lg font-bold text-white">Configurar Mensalidade & PIX</h3>
+        <button onclick="closeModal('fee-config-modal')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="saveFeeConfig(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Valor Mensal Padrão (R$) *</label>
+          <input type="number" step="0.01" min="0" id="config-fee-value" required class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Chave PIX Oficial *</label>
+          <input type="text" id="config-pix-key" required class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Nome / Identificação do Recebedor</label>
+          <input type="text" id="config-pix-holder" required class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('fee-config-modal')" class="px-4 py-2.5 rounded-xl bg-zinc-900 text-zinc-300 text-xs font-semibold">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-semibold">Salvar Configurações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Member Payment Confirmation / Receipt Notice -->
+  <div id="payment-proof-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#141419] border border-amber-500/30 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <h3 class="font-serif text-lg font-bold text-white">Informar Pagamento de Mensalidade</h3>
+        <button onclick="closeModal('payment-proof-modal')" class="text-zinc-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="submitPaymentProof(event)" class="space-y-4">
+        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 text-xs space-y-1">
+          <span class="text-zinc-400">Competência selecionada:</span>
+          <strong id="proof-month-label" class="block text-sm text-amber-300">Novembro / 2026</strong>
+          <span class="text-zinc-400 block pt-1">Valor: <strong id="proof-amount-label" class="text-white">R$ 55,00</strong></span>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Forma de Pagamento *</label>
+          <select id="proof-method" class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500">
+            <option value="PIX">Transferência PIX</option>
+            <option value="Dinheiro na Casa">Entrega em Dinheiro na Casa</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">Data / Identificação do Comprovante *</label>
+          <input type="text" id="proof-note" required placeholder="Ex: Pago via PIX hoje às 14h30 - ID E1234..." class="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white text-sm focus:outline-none focus:border-amber-500" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('payment-proof-modal')" class="px-4 py-2.5 rounded-xl bg-zinc-900 text-zinc-300 text-xs font-semibold">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold">Enviar Aviso à Chefia</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- JAVASCRIPT APPLICATION LOGIC                              -->
+  <!-- ========================================================= -->
+  <script>
+    // ---------------------------------------------------------
+    // 1. CONSTANTS & DEFAULT STATE
+    // ---------------------------------------------------------
+    const STORAGE_KEY = 'ceu_eparrey_portal_v5';
+    const LEGACY_KEYS = ['ceu_eparrey_portal_v1', 'ceu_eparrey_portal_v2', 'ceu_eparrey_portal_v3', 'ceu_eparrey_portal_v4'];
+    const OFFICIAL_CREST_IMAGE = '825351980_18109424087165226_4261091146939829996_n.jpg';
+
+    const LEADERSHIP_ROLES = [
+      'Mãe da Casa',
+      'Pai da Casa',
+      'Mãe Menor',
+      'Pai Menor',
+      'Ogã Chefe',
+      'Cambone Chefe'
+    ];
+
+    const HOUSE_PARENT_ROLES = ['Mãe da Casa', 'Pai da Casa', 'Mãe Menor', 'Pai Menor'];
+
+    const MONTH_OPTIONS = [
+      { value: '2026-09', label: 'Setembro / 2026' },
+      { value: '2026-10', label: 'Outubro / 2026' },
+      { value: '2026-11', label: 'Novembro / 2026' },
+      { value: '2026-12', label: 'Dezembro / 2026' },
+      { value: '2027-01', label: 'Janeiro / 2027' },
+      { value: '2027-02', label: 'Fevereiro / 2027' }
+    ];
+
+    const INITIAL_STATE = {
+      masterPassword: 'eparrey2026',
+      rolePasswords: {
+        'Mãe da Casa': 'mae2026',
+        'Pai da Casa': 'pai2026',
+        'Mãe Menor': 'maemenor2026',
+        'Pai Menor': 'paimenor2026',
+        'Ogã Chefe': 'ogachefe2026',
+        'Cambone Chefe': 'cambone2026'
+      },
+      crestImage: OFFICIAL_CREST_IMAGE,
+      liveStatus: {
+        state: 'aberta',
+        message: 'Gira aberta à assistência às 20h00 — Chegar com 30 min de antecedência.'
+      },
+      feeConfig: {
+        amount: 55.00,
+        pixKey: 'financeiro@ceueparrey.org.br',
+        pixHolder: 'Casa de Umbanda C.E.U. Eparrey'
+      },
+      users: [],
+      payments: {},
+      notices: [
+        {
+          id: 'notice-1',
+          title: 'Gira de Caboclos e Boiadeiros (Aberta ao Público)',
+          date: 'Sábado, 28 de Novembro • 20h00',
+          category: 'Assistência',
+          content: 'Atendimento gratuito à assistência com passes, limpeza espiritual e aconselhamento. Entrega de senhas a partir das 19h15. Trajar roupas claras e respeitosas.'
+        },
+        {
+          id: 'notice-2',
+          title: 'Desenvolvimento Mediúnico & Estudo de Fundamentos',
+          date: 'Quarta-feira, 02 de Dezembro • 19h30',
+          category: 'Corrente',
+          content: 'Trabalho interno exclusivo para os filhos da corrente (Rodantes, Cambones e Ogãs). Trazer caderno de anotações e guias devidamente lavadas.'
+        },
+        {
+          id: 'notice-3',
+          title: 'Festa Anual em Louvor a Mãe Iansã — Eparrey Oyá!',
+          date: 'Sábado, 05 de Dezembro • 19h30',
+          category: 'Festa / Evento',
+          content: 'Grande celebração festiva dedicada à nossa Senhora dos Ventos e Tempestades, padroeira da casa. Venha receber o axé de Oyá!'
+        }
+      ],
+      guias: [
+        {
+          id: 'guia-1',
+          orixa: 'Oxalá',
+          colorName: 'Branca Leitosa / Cristal Transparente',
+          hex1: '#F8FAFC',
+          hex2: '#E2E8F0',
+          meaning: 'Irradia paz, harmonia, fé, pureza e equilíbrio espiritual. É a guia fundamental da Umbanda, utilizada na abertura dos trabalhos e na harmonização do ori.',
+          care: 'Saudação: Epa Babá! • Dia: Sexta-feira'
+        },
+        {
+          id: 'guia-2',
+          orixa: 'Iansã (Oyá)',
+          colorName: 'Vermelha e Branca / Coral e Dourado',
+          hex1: '#DC2626',
+          hex2: '#F59E0B',
+          meaning: 'Força dos ventos, movimento, coragem, transformação e justiça rápida. Afasta demandas e eguns, trazendo determinação e limpeza astral.',
+          care: 'Saudação: Eparrey Oyá! • Dia: Quarta-feira'
+        },
+        {
+          id: 'guia-3',
+          orixa: 'Ogum',
+          colorName: 'Azul Escuro / Vermelha e Branca',
+          hex1: '#1D4ED8',
+          hex2: '#DC2626',
+          meaning: 'Abertura de caminhos, proteção nas batalhas da vida, ordem, disciplina e retidão. Corta demandas e fortalece a firmeza da corrente.',
+          care: 'Saudação: Ogunhê! Patacori Ogum! • Dia: Terça-feira'
+        },
+        {
+          id: 'guia-4',
+          orixa: 'Oxóssi & Caboclos',
+          colorName: 'Verde Folha / Verde e Branca',
+          hex1: '#15803D',
+          hex2: '#86EFAC',
+          meaning: 'Conhecimento, cura pelas ervas sagradas, fartura, expansão e conexão com as matas virgens. Sustenta os trabalhos de passe e descarrego.',
+          care: 'Saudação: Okê Arô! Okê Caboclo! • Dia: Quinta-feira'
+        },
+        {
+          id: 'guia-5',
+          orixa: 'Pretos Velhos (Almas)',
+          colorName: 'Preta e Branca (Lágrimas de Nossa Senhora)',
+          hex1: '#18181B',
+          hex2: '#F8FAFC',
+          meaning: 'Humildade, paciência, sabedoria ancestral, transmutação de cargas pesadas e acolhimento fraterno no conselho espiritual.',
+          care: 'Saudação: Adorei as Almas! • Dia: Segunda-feira'
+        },
+        {
+          id: 'guia-6',
+          orixa: 'Xangô',
+          colorName: 'Marrom e Branca',
+          hex1: '#78350F',
+          hex2: '#F8FAFC',
+          meaning: 'Justiça divina, equilíbrio da razão, sabedoria e firmeza nas decisões. Sustenta a ética e o compromisso espiritual.',
+          care: 'Saudação: Kaô Kabecilê! • Dia: Quarta-feira'
+        },
+        {
+          id: 'guia-7',
+          orixa: 'Oxum',
+          colorName: 'Amarelo Ouro / Dourada',
+          hex1: '#EAB308',
+          hex2: '#FDE047',
+          meaning: 'Amor, prosperidade, fertilidade, doçura e equilíbrio emocional nas águas doces. Harmoniza relações e acalma o coração.',
+          care: 'Saudação: Ora Yê Yê Ô! • Dia: Sábado'
+        },
+        {
+          id: 'guia-8',
+          orixa: 'Iemanjá',
+          colorName: 'Azul Claro / Cristal Azul e Branco',
+          hex1: '#38BDF8',
+          hex2: '#F8FAFC',
+          meaning: 'Amparo materno, serenidade, geração da vida e limpeza profunda pelas ondas do mar. Protege a família e o lar.',
+          care: 'Saudação: Odoyá! • Dia: Sábado'
+        },
+        {
+          id: 'guia-9',
+          orixa: 'Guardiões (Exu e Pombagira)',
+          colorName: 'Preta e Vermelha',
+          hex1: '#09090B',
+          hex2: '#B91C1C',
+          meaning: 'Proteção da porteira, desmanche de magias negativas, guarda espiritual e vitalidade nos caminhos terrenos.',
+          care: 'Saudação: Laroyê Exu! • Dia: Segunda-feira'
+        }
+      ]
+    };
+
+    let appState = loadState();
+    let currentUser = null;
+    let isAdminUnlocked = false;
+    let activeNoticeFilter = 'todos';
+    let revealRolePasswords = false;
+
+    // ---------------------------------------------------------
+    // 2. PERSISTENCE & HELPERS
+    // ---------------------------------------------------------
+    function loadState() {
+      try {
+        LEGACY_KEYS.forEach(k => localStorage.removeItem(k));
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return JSON.parse(JSON.stringify(INITIAL_STATE));
+        const parsed = JSON.parse(raw);
+        return {
+          ...JSON.parse(JSON.stringify(INITIAL_STATE)),
+          ...parsed,
+          rolePasswords: {
+            ...INITIAL_STATE.rolePasswords,
+            ...(parsed.rolePasswords || {})
+          },
+          liveStatus: {
+            ...INITIAL_STATE.liveStatus,
+            ...(parsed.liveStatus || {})
+          },
+          feeConfig: {
+            ...INITIAL_STATE.feeConfig,
+            ...(parsed.feeConfig || {})
+          }
+        };
+      } catch (e) {
+        console.error('Erro ao carregar dados locais:', e);
+        return JSON.parse(JSON.stringify(INITIAL_STATE));
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.error('Erro ao salvar dados locais:', e);
+      }
+    }
+
+    function isLeader(user) {
+      return !!(user && LEADERSHIP_ROLES.includes(user.role));
+    }
+
+    function isHouseParent(user) {
+      return !!(user && HOUSE_PARENT_ROLES.includes(user.role));
+    }
+
+    function formatCurrency(val) {
+      return Number(val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-emerald-950/95 border-emerald-500/50 text-emerald-200',
+        error: 'bg-red-950/95 border-red-500/50 text-red-200',
+        info: 'bg-zinc-900/95 border-amber-500/40 text-amber-200'
+      };
+      toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-2xl text-xs sm:text-sm font-medium transition-all duration-300 ${colors[type] || colors.info}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3600);
+    }
+
+    // ---------------------------------------------------------
+    // 3. NAVIGATION, DRAWER & MODALS
+    // ---------------------------------------------------------
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.add('hidden'));
+      const target = document.getElementById(`tab-${tabName}`);
+      if (target) target.classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn-mobile').forEach(btn => {
+        if (btn.dataset.tab === tabName) {
+          btn.classList.add('bg-red-950/60', 'text-amber-300', 'border', 'border-amber-500/30');
+        } else {
+          btn.classList.remove('bg-red-950/60', 'text-amber-300', 'border', 'border-amber-500/30');
+        }
+      });
+
+      if (tabName === 'avisos') renderNotices();
+      if (tabName === 'guias') renderGuias();
+      if (tabName === 'mensalidades') renderMensalidades();
+      if (tabName === 'admin') renderAdminSection();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ---------------------------------------------------------
+    // 3.5. KIUMBA — IA ESPECIALISTA EM UMBANDA (GEMINI API)
+    // ---------------------------------------------------------
+    let kiumbaHistory = [];
+    let isKiumbaLoading = false;
+
+    function setKiumbaThinkingVisual(isThinking) {
+      const stage = document.getElementById('kiumba-entity-stage');
+      const caption = document.getElementById('kiumba-status-caption');
+      if (stage) {
+        if (isThinking) {
+          stage.classList.add('kiumba-thinking');
+        } else {
+          stage.classList.remove('kiumba-thinking');
+        }
+      }
+      if (caption) {
+        caption.innerHTML = isThinking
+          ? '<span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span> Kiumba formulando resposta...'
+          : '<span class="w-2 h-2 rounded-full bg-amber-400"></span> Kiumba em vigília • Pronto para responder';
+      }
+    }
+
+    function formatKiumbaText(text) {
+      const escaped = escapeHtml(text);
+      return escaped
+        .replace(/\*\*(.+?)\*\*/g, '<strong class="text-amber-300 font-semibold">$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em class="text-zinc-200">$1</em>')
+        .replace(/\n/g, '<br />');
+    }
+
+    function appendKiumbaMessage(sender, text, isLoading = false) {
+      const container = document.getElementById('kiumba-chat-messages');
+      if (!container) return null;
+
+      const wrapper = document.createElement('div');
+      if (sender === 'user') {
+        wrapper.className = 'flex items-start justify-end gap-3';
+        wrapper.innerHTML = `
+          <div class="bg-red-950/60 border border-amber-500/30 rounded-2xl rounded-tr-none p-4 text-sm text-white leading-relaxed max-w-2xl">
+            <strong class="block text-amber-300 text-[11px] uppercase tracking-wider mb-1">Você</strong>
+            <div>${escapeHtml(text)}</div>
+          </div>
+        `;
+      } else {
+        wrapper.className = 'flex items-start gap-3';
+        wrapper.innerHTML = `
+          <div class="w-9 h-9 rounded-full bg-red-950 border border-amber-500/50 flex items-center justify-center text-amber-300 font-serif font-bold text-xs shrink-0">
+            KM
+          </div>
+          <div class="bg-zinc-950 border border-zinc-800 rounded-2xl rounded-tl-none p-4 text-sm text-zinc-200 leading-relaxed max-w-3xl space-y-1.5">
+            <strong class="block text-amber-400 text-xs uppercase tracking-wider">Kiumba • IA da Umbanda</strong>
+            <div class="kiumba-msg-body">${isLoading ? '<span class="text-amber-300 animate-pulse">Consultando os fundamentos da Umbanda...</span>' : formatKiumbaText(text)}</div>
+          </div>
+        `;
+      }
+
+      container.appendChild(wrapper);
+      container.scrollTop = container.scrollHeight;
+      return wrapper;
+    }
+
+    function clearKiumbaChat() {
+      kiumbaHistory = [];
+      const container = document.getElementById('kiumba-chat-messages');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-full bg-red-950 border border-amber-500/50 flex items-center justify-center text-amber-300 font-serif font-bold text-xs shrink-0">
+            KM
+          </div>
+          <div class="bg-zinc-950 border border-zinc-800 rounded-2xl rounded-tl-none p-4 text-sm text-zinc-200 leading-relaxed max-w-3xl space-y-2">
+            <strong class="block text-amber-400 text-xs uppercase tracking-wider">Kiumba • Assistente Doutrinário</strong>
+            <p>
+              Conversa reiniciada! Saravá! Qual dúvida sobre a Umbanda você gostaria de esclarecer agora?
+            </p>
+          </div>
+        </div>
+      `;
+    }
+
+    function askKiumbaSuggestion(question) {
+      const input = document.getElementById('kiumba-user-input');
+      if (!input) return;
+      input.value = question;
+      sendKiumbaQuestion(question);
+      input.value = '';
+    }
+
+    function handleKiumbaSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('kiumba-user-input');
+      const question = (input?.value || '').trim();
+      if (!question || isKiumbaLoading) return;
+      input.value = '';
+      sendKiumbaQuestion(question);
+    }
+
+    async function callGeminiKiumbaWithBackoff(payload) {
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+      const delays = [800, 1600];
+
+      for (let attempt = 0; attempt <= delays.length; attempt++) {
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const data = await response.json();
+          const candidate = data?.candidates?.[0];
+          const text = candidate?.content?.parts?.[0]?.text;
+          if (!text) {
+            throw new Error('Resposta vazia da API');
+          }
+
+          let sources = [];
+          const groundingMetadata = candidate?.groundingMetadata;
+          if (groundingMetadata && groundingMetadata.groundingAttributions) {
+            sources = groundingMetadata.groundingAttributions
+              .map(attr => ({
+                uri: attr.web?.uri,
+                title: attr.web?.title
+              }))
+              .filter(s => s.uri && s.title);
+          }
+
+          return { text, sources };
+        } catch (err) {
+          if (attempt === delays.length) throw err;
+          await new Promise(resolve => setTimeout(resolve, delays[attempt]));
+        }
+      }
+    }
+
+    function isUmbandaRelatedTopic(question) {
+      const q = question.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const umbandaKeywords = [
+        'umbanda', 'orixa', 'oxala', 'iansa', 'oya', 'ogum', 'oxossi', 'xango', 'oxum',
+        'iemanja', 'obaluae', 'omolu', 'nana', 'ibeji', 'exu', 'pombagira', 'pomba gira',
+        'ze pelintra', 'caboclo', 'preto velho', 'preta velha', 'ere', 'crianca', 'baiano',
+        'boiadeiro', 'marinheiro', 'cigano', 'kiumba', 'egum', 'obsessor', 'guia', 'guias',
+        'terreiro', 'gira', 'passe', 'banho', 'erva', 'ervas', 'descarrego', 'amaci',
+        'ponto', 'atabaque', 'oga', 'cambone', 'medium', 'mediunidade', 'incorporacao',
+        'firmeza', 'tronqueira', 'congá', 'conga', 'aruanda', 'sarava', 'axe', 'zelio',
+        'sete linhas', '7 linhas', 'vela', 'velas', 'defumacao', 'pemba', 'preceito',
+        'corrente', 'eparrey', 'epababa', 'epa baba', 'ogunhe', 'oke', 'kao', 'odoya',
+        'laroye', 'adorei as almas', 'almas', 'espiritual', 'espirito', 'caridade', 'fe'
+      ];
+      return umbandaKeywords.some(word => q.includes(word));
+    }
+
+    function generateKiumbaFallbackKnowledge(question) {
+      const q = question.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      if (!isUmbandaRelatedTopic(question)) {
+        return "não faço vai pesquisar vc";
+      }
+
+      if (q.includes('oxala') || q.includes('epababa') || q.includes('epa baba') || q.includes('oxalufa') || q.includes('oxaguia')) {
+        return (
+          "**Oxalá** é o Orixá maior da Umbanda, símbolo supremo da paz, da fé, da pureza e da criação divina.\n\n" +
+          "• **Fundamento:** Representa a luz primordial, a harmonia e a serenidade que equilibram todos os outros Orixás e sustentam a abertura das giras.\n" +
+          "• **Qualidades principais:** **Oxalufã** (o ancião sábio, calmo e paciente) e **Oxaguiã** (o jovem guerreiro da paz e do movimento construtivo).\n" +
+          "• **Cor e Saudação:** Branco leitoso ou cristal transparente; saudado às sextas-feiras com **\"Epa Babá!\"**."
+        );
+      }
+
+      if (q.includes('kiumba') || q.includes('obsessor') || q.includes('egum') || q.includes('zombeteiro')) {
+        return (
+          "Na doutrina da Umbanda, **Kiumba** é o espírito desencarnado ainda preso a vibrações densas, mágoas ou ilusões materiais, podendo atuar como obsessor.\n\n" +
+          "• **Atuação da Umbanda:** Os Guias de trabalho (Pretos Velhos, Caboclos e Guardiões como Exu e Pombagira) contêm sua influência negativa com firmeza e o encaminham para tratamento espiritual.\n" +
+          "• **Prevenção:** Orações, reforma íntima, banhos de ervas de limpeza (arruda, guiné e alecrim) e frequência às giras."
+        );
+      }
+
+      if (q.includes('orixa') && (q.includes('guia') || q.includes('diferenca') || q.includes('entidade'))) {
+        return (
+          "• **Orixás:** São divindades ancestrais e forças puras da natureza e da criação divina (como Oxalá, Iansã, Ogum, Oxóssi, Xangô, Oxum e Iemanjá). Na Umbanda tradicional, eles irradiam sua força sem incorporar com personalidade humana.\n" +
+          "• **Guias de Trabalho:** São espíritos que já viveram na Terra e retornam em falanges (Caboclos, Pretos Velhos, Crianças, Baianos, Boiadeiros, Marinheiros e Guardiões) sob a irradiação de um Orixá para praticar a caridade e dar conselhos."
+        );
+      }
+
+      if (q.includes('banho') || q.includes('erva') || q.includes('descarrego') || q.includes('amaci')) {
+        return (
+          "• **Banhos de Descarrego (Limpeza):** Usam ervas de limpeza (arruda, guiné, espada-de-são-jorge, aroeira) e devem ser jogados **do pescoço para baixo**, após o banho comum.\n" +
+          "• **Banhos de Energização:** Usam ervas equilibradoras (alecrim, manjericão, alfazema, levante, rosa branca) e podem ser jogados da cabeça para baixo, conforme orientação da casa.\n" +
+          "• **Atenção:** Nunca jogue sal grosso na cabeça (ori)."
+        );
+      }
+
+      if (q.includes('iansa') || q.includes('oya') || q.includes('eparrey')) {
+        return (
+          "**Iansã (Oyá)** é a Orixá senhora dos ventos, das tempestades, dos raios e da transformação, padroeira da **Casa de Umbanda C.E.U. Eparrey**.\n\n" +
+          "• **Fundamentos:** Coragem, justiça rápida, movimento e limpeza astral contra eguns e demandas.\n" +
+          "• **Cor e Saudação:** Vermelho, coral e branco; saudada às quartas-feiras com **\"Eparrey Oyá!\"**."
+        );
+      }
+
+      if (q.includes('ogum') || q.includes('ogunhe')) {
+        return (
+          "**Ogum** é o Orixá da lei, da ordem, da abertura de caminhos e da proteção nas batalhas da vida.\n\n" +
+          "• **Cor e Saudação:** Azul escuro (ou vermelho e branco na Umbanda); saudado às terças-feiras com **\"Ogunhê! Patacori Ogum!\"**."
+        );
+      }
+
+      if (q.includes('oxossi') || q.includes('caboclo') || q.includes('oke')) {
+        return (
+          "**Oxóssi** é o Orixá das matas, do conhecimento, da cura pelas ervas e da fartura, regente da falange dos **Caboclos**.\n\n" +
+          "• **Cor e Saudação:** Verde; saudado às quintas-feiras com **\"Okê Arô! Okê Caboclo!\"**."
+        );
+      }
+
+      if (q.includes('xango') || q.includes('kao')) {
+        return (
+          "**Xangô** é o Orixá da justiça divina, da razão, do equilíbrio e das pedreiras.\n\n" +
+          "• **Cor e Saudação:** Marrom e branco; saudado às quartas-feiras com **\"Kaô Kabecilê!\"**."
+        );
+      }
+
+      if (q.includes('oxum') || q.includes('ora ye')) {
+        return (
+          "**Oxum** é a Orixá das águas doces, do amor, da prosperidade, da fertilidade e do equilíbrio emocional.\n\n" +
+          "• **Cor e Saudação:** Amarelo ouro / dourado; saudada aos sábados com **\"Ora Yê Yê Ô!\"**."
+        );
+      }
+
+      if (q.includes('iemanja') || q.includes('odoya')) {
+        return (
+          "**Iemanjá** é a Orixá rainha do mar, mãe acolhedora da geração da vida, da família e da serenidade.\n\n" +
+          "• **Cor e Saudação:** Azul claro e branco; saudada aos sábados com **\"Odoyá!\"**."
+        );
+      }
+
+      if (q.includes('sete linhas') || q.includes('7 linhas') || q.includes('linhas da umbanda')) {
+        return (
+          "As **Sete Linhas da Umbanda** representam as sete grandes irradiações divinas:\n\n" +
+          "1. **Oxalá** (Fé e Paz)\n" +
+          "2. **Iemanjá** (Geração e Família)\n" +
+          "3. **Oxóssi** (Conhecimento e Matas — Caboclos)\n" +
+          "4. **Xangô** (Justiça e Equilíbrio)\n" +
+          "5. **Ogum** (Lei e Abertura de Caminhos)\n" +
+          "6. **Oxum** (Amor e Prosperidade)\n" +
+          "7. **Yorimá / Almas (Obaluaê e Nanã)** (Sabedoria e Humildade — Pretos Velhos)"
+        );
+      }
+
+      if (q.includes('exu') || q.includes('pombagira') || q.includes('esquerda') || q.includes('guardiao') || q.includes('laroye')) {
+        return (
+          "**Exus e Pombagiras** são os **Guardiões** da linha da Esquerda na Umbanda.\n\n" +
+          "• **Função:** Protegem a porteira do terreiro, desmancham demandas e cortam laços obsessivos. Não têm qualquer relação com o conceito cristão de demônio.\n" +
+          "• **Saudação:** **\"Laroyê Exu!\"** e **\"Laroyê Pombagira!\"**."
+        );
+      }
+
+      if (q.includes('preto velho') || q.includes('pretos velhos') || q.includes('adorei as almas')) {
+        return (
+          "Os **Pretos Velhos e Pretas Velhas** são espíritos de elevada sabedoria, humildade, paciência e amor fraterno, atuando na linha das Almas (Obaluaê e Nanã) com passes, benzeduras e conselhos."
+        );
+      }
+
+      if (q.includes('zelio') || q.includes('historia') || q.includes('origem') || q.includes('1908') || q.includes('sete encruzilhadas')) {
+        return (
+          "A **Umbanda** foi anunciada em **15 de novembro de 1908**, em Neves (RJ), pelo médium **Zélio Fernandino de Moraes** através do **Caboclo das Sete Encruzilhadas**, firmando o compromisso com a **caridade gratuita, humildade e amor ao próximo**."
+        );
+      }
+
+      if (q.includes('cambone') || q.includes('oga') || q.includes('medium') || q.includes('rodante') || q.includes('corrente')) {
+        return (
+          "• **Médium Rodante:** Incorpora os Guias espirituais para o trabalho de caridade.\n" +
+          "• **Cambone:** Auxilia e interpreta o Guia durante a consulta.\n" +
+          "• **Ogã:** Sustenta a vibração da gira com os atabaques e pontos cantados."
+        );
+      }
+
+      return (
+        `Na doutrina da **Umbanda**, toda prática espiritual se baseia na **caridade gratuita, na humildade e no respeito aos Orixás e Guias de Aruanda**.\n\n` +
+        `Sobre sua pergunta (**"${question}"**), cada fundamento busca o equilíbrio energético e espiritual do médium e da assistência, devendo sempre seguir os preceitos da **Casa de Umbanda C.E.U. Eparrey**.`
+      );
+    }
+
+    async function sendKiumbaQuestion(question) {
+      isKiumbaLoading = true;
+      setKiumbaThinkingVisual(true);
+      const sendBtn = document.getElementById('kiumba-send-btn');
+      if (sendBtn) sendBtn.disabled = true;
+
+      appendKiumbaMessage('user', question);
+      const loadingEl = appendKiumbaMessage('ai', '', true);
+
+      kiumbaHistory.push({
+        role: 'user',
+        parts: [{ text: question }]
+      });
+
+      const systemPrompt =
+        "Você é Kiumba, a Inteligência Artificial especialista em Umbanda da Casa de Umbanda C.E.U. Eparrey. " +
+        "REGRAS OBRIGATÓRIAS:\n" +
+        "1. REGRA DE ESCOPO (MUITO IMPORTANTE): Você SÓ responde perguntas relacionadas à Umbanda, Orixás, Guias espirituais, ervas, banhos, pontos, rituais, história e doutrina umbandista. Se o usuário perguntar QUALQUER COISA que não tenha relação com a Umbanda (como futebol, matemática, receitas culinárias comuns, programação, política, fofocas, filmes, etc.), responda EXCLUSIVAMENTE e exatamente com a frase: \"não faço vai pesquisar vc\" (sem acrescentar mais nada).\n" +
+        "2. PRECISÃO E CLAREZA: Quando a pergunta for sobre Umbanda (ex: 'quem é Oxalá'), use a busca na mídia/web para verificar os fatos doutrinários e dê uma resposta correta, sem erros, bem explicada e com tamanho proporcional à pergunta (breve e direta para perguntas simples, detalhada quando necessário).";
+
+      const payload = {
+        contents: kiumbaHistory,
+        tools: [{ "google_search": {} }],
+        systemInstruction: {
+          parts: [{ text: systemPrompt }]
+        }
+      };
+
+      let replyText = '';
+      let sources = [];
+      try {
+        const result = await callGeminiKiumbaWithBackoff(payload);
+        replyText = result.text;
+        sources = result.sources || [];
+      } catch (error) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+        replyText = generateKiumbaFallbackKnowledge(question);
+      }
+
+      kiumbaHistory.push({
+        role: 'model',
+        parts: [{ text: replyText }]
+      });
+
+      if (loadingEl) {
+        const body = loadingEl.querySelector('.kiumba-msg-body');
+        if (body) {
+          let html = formatKiumbaText(replyText);
+          if (sources.length > 0 && replyText.trim().toLowerCase() !== 'não faço vai pesquisar vc') {
+            const uniqueSources = sources.slice(0, 3);
+            html += `<div class="mt-3 pt-2 border-t border-zinc-800/80 text-[11px] text-zinc-400">
+              <span class="block font-semibold text-amber-400/90 mb-1">Fontes consultadas na mídia:</span>
+              <ul class="space-y-0.5 list-disc list-inside">
+                ${uniqueSources.map(s => `<li><a href="${escapeHtml(s.uri)}" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-300">${escapeHtml(s.title)}</a></li>`).join('')}
+              </ul>
+            </div>`;
+          }
+          body.innerHTML = html;
+        }
+      }
+
+      isKiumbaLoading = false;
+      setKiumbaThinkingVisual(false);
+      if (sendBtn) sendBtn.disabled = false;
+      const container = document.getElementById('kiumba-chat-messages');
+      if (container) container.scrollTop = container.scrollHeight;
+    }
+
+    function toggleCornerDrawer() {
+      const drawer = document.getElementById('corner-drawer');
+      const backdrop = document.getElementById('corner-drawer-backdrop');
+      if (!drawer || !backdrop) return;
+      const isClosed = drawer.classList.contains('translate-x-full');
+      if (isClosed) {
+        drawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        closeCornerDrawer();
+      }
+    }
+
+    function closeCornerDrawer() {
+      const drawer = document.getElementById('corner-drawer');
+      const backdrop = document.getElementById('corner-drawer-backdrop');
+      if (drawer) drawer.classList.add('translate-x-full');
+      if (backdrop) backdrop.classList.add('hidden');
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    }
+
+    function openTopAuthModal(mode = 'login') {
+      switchTopModalAuthTab(mode);
+      openModal('top-auth-modal');
+    }
+
+    function openAuthModal(mode = 'login') {
+      openTopAuthModal(mode);
+    }
+
+    function switchTopModalAuthTab(mode) {
+      const loginForm = document.getElementById('modal-login-form');
+      const regForm = document.getElementById('modal-register-form');
+      const tabLogin = document.getElementById('modal-auth-tab-login');
+      const tabReg = document.getElementById('modal-auth-tab-register');
+
+      if (mode === 'login') {
+        loginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+        tabLogin.className = 'py-2.5 rounded-lg text-xs sm:text-sm font-semibold bg-red-800 text-white transition';
+        tabReg.className = 'py-2.5 rounded-lg text-xs sm:text-sm font-semibold text-zinc-400 hover:text-white transition';
+      } else {
+        loginForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
+        tabReg.className = 'py-2.5 rounded-lg text-xs sm:text-sm font-semibold bg-red-800 text-white transition';
+        tabLogin.className = 'py-2.5 rounded-lg text-xs sm:text-sm font-semibold text-zinc-400 hover:text-white transition';
+      }
+    }
+
+    function openAdminGateModal() {
+      switchTab('admin');
+    }
+
+    // ---------------------------------------------------------
+    // 4. LIVE STATUS & CREST SYNC
+    // ---------------------------------------------------------
+    function renderLiveStatus() {
+      const { state, message } = appState.liveStatus;
+      const dot = document.getElementById('status-indicator-dot');
+      const label = document.getElementById('status-badge-label');
+      const msgEl = document.getElementById('status-message-text');
+      const drawerStatus = document.getElementById('drawer-live-status');
+      const drawerMsg = document.getElementById('drawer-live-msg');
+      const footerStatus = document.getElementById('footer-status-text');
+
+      let labelText = 'Aberta para o Público';
+      let colorClass = 'text-emerald-400';
+      let dotClass = 'w-3 h-3 rounded-full bg-emerald-500 status-dot shrink-0 shadow-[0_0_10px_rgba(16,185,129,0.8)]';
+
+      if (state === 'interna') {
+        labelText = 'Gira Interna / Somente Corrente';
+        colorClass = 'text-amber-400';
+        dotClass = 'w-3 h-3 rounded-full bg-amber-400 status-dot shrink-0 shadow-[0_0_10px_rgba(245,158,11,0.8)]';
+      } else if (state === 'fechada') {
+        labelText = 'Fechada para o Público';
+        colorClass = 'text-red-400';
+        dotClass = 'w-3 h-3 rounded-full bg-red-500 status-dot shrink-0 shadow-[0_0_10px_rgba(239,68,68,0.8)]';
+      }
+
+      if (dot) dot.className = dotClass;
+      if (label) {
+        label.textContent = labelText;
+        label.className = `font-bold uppercase tracking-wider ${colorClass}`;
+      }
+      if (msgEl) msgEl.textContent = message;
+      if (drawerStatus) {
+        drawerStatus.textContent = labelText;
+        drawerStatus.className = `font-semibold text-right ${colorClass}`;
+      }
+      if (drawerMsg) drawerMsg.textContent = message;
+      if (footerStatus) {
+        footerStatus.textContent = labelText;
+        footerStatus.className = `text-sm font-semibold ${colorClass}`;
+      }
+    }
+
+    function openStatusModal() {
+      if (!isLeader(currentUser)) {
+        showToast('Apenas cargos de chefia podem alterar o status ao vivo.', 'error');
+        return;
+      }
+      document.getElementById('modal-status-state').value = appState.liveStatus.state;
+      document.getElementById('modal-status-msg').value = appState.liveStatus.message;
+      openModal('status-modal');
+    }
+
+    function saveLiveStatus(e) {
+      e.preventDefault();
+      if (!isLeader(currentUser)) return;
+      appState.liveStatus.state = document.getElementById('modal-status-state').value;
+      appState.liveStatus.message = document.getElementById('modal-status-msg').value.trim();
+      saveState();
+      renderLiveStatus();
+      closeModal('status-modal');
+      showToast('Status ao vivo do terreiro atualizado!', 'success');
+    }
+
+    function applyCrestImage() {
+      const src = appState.crestImage || OFFICIAL_CREST_IMAGE;
+      const wrappers = [
+        'header-crest-wrapper',
+        'drawer-crest-preview',
+        'hero-crest-preview',
+        'admin-crest-preview',
+        'footer-crest-wrapper',
+        'modal-crest-preview'
+      ];
+      wrappers.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          const img = el.querySelector('img');
+          if (img) img.src = src;
+        }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // 5. AUTHENTICATION, REGISTRATION & ROLE VISIBILITY
+    // ---------------------------------------------------------
+    function handleModalRoleChange() {
+      const role = document.getElementById('modal-reg-role').value;
+      const subroleBox = document.getElementById('modal-filho-subrole-container');
+      const secretBox = document.getElementById('modal-leadership-secret-container');
+      const roleLabel = document.getElementById('modal-selected-leadership-label');
+      const secretInput = document.getElementById('modal-reg-special-password');
+
+      if (role === 'Filho(a) da Casa') {
+        subroleBox.classList.remove('hidden');
+      } else {
+        subroleBox.classList.add('hidden');
+      }
+
+      if (LEADERSHIP_ROLES.includes(role)) {
+        secretBox.classList.remove('hidden');
+        roleLabel.textContent = role;
+        secretInput.required = true;
+      } else {
+        secretBox.classList.add('hidden');
+        secretInput.required = false;
+        secretInput.value = '';
+      }
+    }
+
+    function handleModalRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('modal-reg-name').value.trim();
+      const email = document.getElementById('modal-reg-email').value.trim();
+      const password = document.getElementById('modal-reg-password').value;
+      const role = document.getElementById('modal-reg-role').value;
+
+      if (!role) {
+        showToast('Selecione sua posição ou cargo na casa.', 'error');
+        return;
+      }
+
+      let subRole = '';
+      if (role === 'Filho(a) da Casa') {
+        const selectedSub = document.querySelector('input[name="modal-reg-subrole"]:checked');
+        if (!selectedSub) {
+          showToast('Escolha se atua como Rodante ou Cambone.', 'error');
+          return;
+        }
+        subRole = selectedSub.value;
+      }
+
+      if (LEADERSHIP_ROLES.includes(role)) {
+        const specialPass = document.getElementById('modal-reg-special-password').value;
+        const expectedPass = appState.rolePasswords[role];
+        if (!expectedPass || specialPass !== expectedPass) {
+          showToast(`Senha especial incorreta para o cargo "${role}".`, 'error');
+          return;
+        }
+      }
+
+      const duplicate = appState.users.some(u => u.email.toLowerCase() === email.toLowerCase());
+      if (duplicate) {
+        showToast('Já existe um cadastro com este e-mail.', 'error');
+        return;
+      }
+
+      const newUser = {
+        id: 'user-' + Date.now(),
+        name,
+        email,
+        password,
+        role,
+        subRole,
+        createdAt: new Date().toISOString()
+      };
+
+      appState.users.push(newUser);
+      saveState();
+      currentUser = newUser;
+      // Desbloqueio automático para Mãe da Casa, Pai da Casa, Mãe Menor e Pai Menor
+      isAdminUnlocked = isHouseParent(currentUser);
+
+      e.target.reset();
+      handleModalRoleChange();
+      closeModal('top-auth-modal');
+      updateRoleVisibility();
+      renderNotices();
+      renderGuias();
+      renderMensalidades();
+      if (isAdminUnlocked) {
+        renderAdminSection();
+      }
+      showToast(`Bem-vindo(a), ${newUser.name}! Cadastro realizado com sucesso.`, 'success');
+    }
+
+    function authenticateUser(identifier, password) {
+      const cleanId = identifier.trim().toLowerCase();
+      const found = appState.users.find(
+        u => (u.email.toLowerCase() === cleanId || u.name.toLowerCase() === cleanId) && u.password === password
+      );
+      if (!found) {
+        showToast('E-mail/nome ou senha incorretos.', 'error');
+        return false;
+      }
+      currentUser = found;
+      // Desbloqueio automático para Mãe da Casa, Pai da Casa, Mãe Menor e Pai Menor
+      isAdminUnlocked = isHouseParent(currentUser);
+      updateRoleVisibility();
+      renderNotices();
+      renderGuias();
+      renderMensalidades();
+      if (isAdminUnlocked) {
+        renderAdminSection();
+      }
+      showToast(`Axé, ${found.name}! Conectado como ${found.role}.`, 'success');
+      return true;
+    }
+
+    function handleQuickTopLogin(e) {
+      e.preventDefault();
+      const id = document.getElementById('quick-top-email').value;
+      const pass = document.getElementById('quick-top-password').value;
+      if (authenticateUser(id, pass)) {
+        e.target.reset();
+      }
+    }
+
+    function handleModalLogin(e) {
+      e.preventDefault();
+      const id = document.getElementById('modal-login-email').value;
+      const pass = document.getElementById('modal-login-password').value;
+      if (authenticateUser(id, pass)) {
+        e.target.reset();
+        closeModal('top-auth-modal');
+      }
+    }
+
+    function logoutUser() {
+      currentUser = null;
+      isAdminUnlocked = false;
+      updateRoleVisibility();
+      renderNotices();
+      renderGuias();
+      renderMensalidades();
+      renderAdminSection();
+      showToast('Você saiu da sua conta.', 'info');
+    }
+
+    function updateRoleVisibility() {
+      const guestBar = document.getElementById('top-guest-auth-bar');
+      const loggedBar = document.getElementById('top-logged-auth-bar');
+      const drawerMemberCard = document.getElementById('drawer-member-card');
+      const btnEditStatus = document.getElementById('btn-edit-status');
+      const drawerStatusBtn = document.getElementById('drawer-status-btn');
+      const topAdminBtn = document.getElementById('top-admin-btn');
+      const drawerAdminBtn = document.getElementById('drawer-admin-btn');
+      const noticesLeaderActions = document.getElementById('notices-leader-actions');
+      const guiasLeaderActions = document.getElementById('guias-leader-actions');
+      const btnConfigFee = document.getElementById('btn-config-fee');
+
+      if (currentUser) {
+        guestBar.classList.add('hidden');
+        loggedBar.classList.remove('hidden');
+        drawerMemberCard.classList.remove('hidden');
+
+        const initials = currentUser.name
+          .split(' ')
+          .map(p => p[0])
+          .slice(0, 2)
+          .join('')
+          .toUpperCase();
+        const roleDisplay = currentUser.subRole
+          ? `${currentUser.role} (${currentUser.subRole})`
+          : currentUser.role;
+
+        document.getElementById('top-user-avatar').textContent = initials || 'CE';
+        document.getElementById('top-user-name').textContent = currentUser.name;
+        document.getElementById('top-user-role').textContent = roleDisplay;
+        document.getElementById('drawer-user-fullname').textContent = currentUser.name;
+        document.getElementById('drawer-user-rolefull').textContent = roleDisplay;
+      } else {
+        guestBar.classList.remove('hidden');
+        loggedBar.classList.add('hidden');
+        drawerMemberCard.classList.add('hidden');
+      }
+
+      if (isLeader(currentUser)) {
+        btnEditStatus.classList.remove('hidden');
+        btnEditStatus.classList.add('inline-flex');
+        drawerStatusBtn.classList.remove('hidden');
+        noticesLeaderActions.classList.remove('hidden');
+        guiasLeaderActions.classList.remove('hidden');
+        btnConfigFee.classList.remove('hidden');
+        btnConfigFee.classList.add('inline-flex');
+      } else {
+        btnEditStatus.classList.add('hidden');
+        btnEditStatus.classList.remove('inline-flex');
+        drawerStatusBtn.classList.add('hidden');
+        noticesLeaderActions.classList.add('hidden');
+        guiasLeaderActions.classList.add('hidden');
+        btnConfigFee.classList.add('hidden');
+        btnConfigFee.classList.remove('inline-flex');
+      }
+
+      if (isHouseParent(currentUser)) {
+        topAdminBtn.classList.remove('hidden');
+        topAdminBtn.classList.add('inline-flex');
+        drawerAdminBtn.classList.remove('hidden');
+      } else {
+        topAdminBtn.classList.add('hidden');
+        topAdminBtn.classList.remove('inline-flex');
+        drawerAdminBtn.classList.add('hidden');
+      }
+    }
+
+    // ---------------------------------------------------------
+    // 6. MURAL DE AVISOS & GIRAS
+    // ---------------------------------------------------------
+    function filterNotices(cat) {
+      activeNoticeFilter = cat;
+      document.querySelectorAll('.notice-filter-btn').forEach(btn => {
+        if (btn.dataset.noticeFilter === cat) {
+          btn.className = 'notice-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-red-800 text-white transition';
+        } else {
+          btn.className = 'notice-filter-btn px-4 py-2 rounded-full text-xs font-semibold bg-zinc-900 text-zinc-300 hover:bg-zinc-800 transition';
+        }
+      });
+      renderNotices();
+    }
+
+    function renderNotices() {
+      const grid = document.getElementById('notices-grid');
+      if (!grid) return;
+
+      const list = activeNoticeFilter === 'todos'
+        ? appState.notices
+        : appState.notices.filter(n => n.category === activeNoticeFilter);
+
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-[#131318] rounded-2xl p-8 text-center border border-zinc-800 text-sm text-zinc-400">
+            Nenhum aviso publicado nesta categoria no momento.
+          </div>
+        `;
+        return;
+      }
+
+      const canManage = isLeader(currentUser);
+      grid.innerHTML = list.map(n => {
+        let badgeStyle = 'bg-emerald-950 text-emerald-300 border-emerald-700/50';
+        if (n.category === 'Corrente') badgeStyle = 'bg-amber-950 text-amber-300 border-amber-700/50';
+        if (n.category === 'Festa / Evento') badgeStyle = 'bg-red-950 text-red-300 border-red-700/50';
+
+        return `
+          <article class="bg-[#131318] rounded-2xl p-6 red-gold-border flex flex-col justify-between gap-4 hover:border-amber-500/45 transition">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-3 py-1 rounded-full text-[11px] font-semibold border ${badgeStyle}">
+                  ${escapeHtml(n.category)}
+                </span>
+                <span class="text-xs text-amber-400 font-medium">${escapeHtml(n.date)}</span>
+              </div>
+              <h3 class="font-serif text-lg font-bold text-white leading-snug">${escapeHtml(n.title)}</h3>
+              <p class="text-sm text-zinc-300 leading-relaxed">${escapeHtml(n.content)}</p>
+            </div>
+            ${canManage ? `
+              <div class="pt-3 border-t border-zinc-800/80 flex items-center justify-end gap-2">
+                <button onclick="openNoticeModal('${escapeHtml(n.id)}')" class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-amber-300 text-xs font-semibold border border-zinc-700 transition">
+                  Editar
+                </button>
+                <button onclick="deleteNotice('${escapeHtml(n.id)}')" class="px-3 py-1.5 rounded-lg bg-red-950/70 hover:bg-red-900 text-red-300 text-xs font-semibold border border-red-800/50 transition">
+                  Excluir
+                </button>
+              </div>
+            ` : ''}
+          </article>
+        `;
+      }).join('');
+    }
+
+    function openNoticeModal(noticeId = '') {
+      if (!isLeader(currentUser)) return;
+      const editIdInput = document.getElementById('notice-edit-id');
+      const modalTitle = document.getElementById('notice-modal-title');
+      if (noticeId) {
+        const found = appState.notices.find(n => n.id === noticeId);
+        if (!found) return;
+        modalTitle.textContent = 'Editar Aviso do Mural';
+        editIdInput.value = found.id;
+        document.getElementById('notice-title').value = found.title;
+        document.getElementById('notice-date').value = found.date;
+        document.getElementById('notice-category').value = found.category;
+        document.getElementById('notice-content').value = found.content;
+      } else {
+        modalTitle.textContent = 'Novo Aviso no Mural';
+        editIdInput.value = '';
+        document.getElementById('notice-title').value = '';
+        document.getElementById('notice-date').value = '';
+        document.getElementById('notice-category').value = 'Assistência';
+        document.getElementById('notice-content').value = '';
+      }
+      openModal('notice-modal');
+    }
+
+    function saveNotice(e) {
+      e.preventDefault();
+      if (!isLeader(currentUser)) return;
+      const editId = document.getElementById('notice-edit-id').value;
+      const title = document.getElementById('notice-title').value.trim();
+      const date = document.getElementById('notice-date').value.trim();
+      const category = document.getElementById('notice-category').value;
+      const content = document.getElementById('notice-content').value.trim();
+
+      if (editId) {
+        const idx = appState.notices.findIndex(n => n.id === editId);
+        if (idx !== -1) {
+          appState.notices[idx] = { ...appState.notices[idx], title, date, category, content };
+        }
+        showToast('Aviso atualizado no mural!', 'success');
+      } else {
+        appState.notices.unshift({
+          id: 'notice-' + Date.now(),
+          title,
+          date,
+          category,
+          content
+        });
+        showToast('Novo aviso publicado no mural!', 'success');
+      }
+
+      saveState();
+      renderNotices();
+      closeModal('notice-modal');
+    }
+
+    function deleteNotice(id) {
+      if (!isLeader(currentUser)) return;
+      appState.notices = appState.notices.filter(n => n.id !== id);
+      saveState();
+      renderNotices();
+      showToast('Aviso removido do mural.', 'info');
+    }
+
+    // ---------------------------------------------------------
+    // 7. ENSINAMENTOS DE CORES DE GUIAS
+    // ---------------------------------------------------------
+    function quickSearchGuia(term) {
+      const input = document.getElementById('guia-search-input');
+      if (input) {
+        input.value = term;
+        renderGuias();
+      }
+    }
+
+    function clearGuiaSearch() {
+      const input = document.getElementById('guia-search-input');
+      if (input) {
+        input.value = '';
+        renderGuias();
+      }
+    }
+
+    function renderGuias() {
+      const grid = document.getElementById('guias-grid');
+      if (!grid) return;
+      const q = (document.getElementById('guia-search-input')?.value || '').trim().toLowerCase();
+
+      const filtered = appState.guias.filter(g => {
+        if (!q) return true;
+        return (
+          g.orixa.toLowerCase().includes(q) ||
+          g.colorName.toLowerCase().includes(q) ||
+          g.meaning.toLowerCase().includes(q) ||
+          (g.care || '').toLowerCase().includes(q)
+        );
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-[#131318] rounded-2xl p-8 text-center border border-zinc-800 text-sm text-zinc-400">
+            Nenhum ensinamento encontrado para "${escapeHtml(q)}".
+          </div>
+        `;
+        return;
+      }
+
+      const canManage = isLeader(currentUser);
+      grid.innerHTML = filtered.map(g => `
+        <article class="bg-[#131318] rounded-2xl p-6 red-gold-border flex flex-col justify-between gap-4 hover:border-amber-500/45 transition">
+          <div class="space-y-3.5">
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-1.5">
+                <span class="w-5 h-5 rounded-full border border-white/30 shadow-inner" style="background-color: ${escapeHtml(g.hex1)};"></span>
+                <span class="w-5 h-5 rounded-full border border-white/30 shadow-inner -ml-1.5" style="background-color: ${escapeHtml(g.hex2 || g.hex1)};"></span>
+                <span class="w-5 h-5 rounded-full border border-white/30 shadow-inner -ml-1.5" style="background-color: ${escapeHtml(g.hex1)};"></span>
+              </div>
+              <span class="text-[11px] font-semibold uppercase tracking-wider text-amber-400">${escapeHtml(g.orixa)}</span>
+            </div>
+            <div>
+              <h3 class="font-serif text-lg font-bold text-white">${escapeHtml(g.orixa)}</h3>
+              <span class="block text-xs text-amber-300/90 font-medium mt-0.5">Guia ${escapeHtml(g.colorName)}</span>
+            </div>
+            <p class="text-sm text-zinc-300 leading-relaxed">${escapeHtml(g.meaning)}</p>
+          </div>
+          <div class="pt-3 border-t border-zinc-800/80 flex items-center justify-between gap-2">
+            <span class="text-[11px] text-zinc-400">${escapeHtml(g.care || '')}</span>
+            ${canManage ? `
+              <button onclick="deleteGuia('${escapeHtml(g.id)}')" class="px-2.5 py-1 rounded-lg bg-red-950/70 hover:bg-red-900 text-red-300 text-[11px] font-semibold border border-red-800/50 transition shrink-0">
+                Remover
+              </button>
+            ` : ''}
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function openGuiaModal() {
+      if (!isLeader(currentUser)) return;
+      document.getElementById('new-guia-orixa').value = '';
+      document.getElementById('new-guia-color-name').value = '';
+      document.getElementById('new-guia-meaning').value = '';
+      document.getElementById('new-guia-care').value = '';
+      openModal('guia-modal');
+    }
+
+    function saveNewGuia(e) {
+      e.preventDefault();
+      if (!isLeader(currentUser)) return;
+      appState.guias.push({
+        id: 'guia-' + Date.now(),
+        orixa: document.getElementById('new-guia-orixa').value.trim(),
+        colorName: document.getElementById('new-guia-color-name').value.trim(),
+        hex1: document.getElementById('new-guia-hex1').value,
+        hex2: document.getElementById('new-guia-hex2').value,
+        meaning: document.getElementById('new-guia-meaning').value.trim(),
+        care: document.getElementById('new-guia-care').value.trim()
+      });
+      saveState();
+      renderGuias();
+      closeModal('guia-modal');
+      showToast('Ensinamento de guia adicionado!', 'success');
+    }
+
+    function deleteGuia(id) {
+      if (!isLeader(currentUser)) return;
+      appState.guias = appState.guias.filter(g => g.id !== id);
+      saveState();
+      renderGuias();
+      showToast('Ensinamento removido.', 'info');
+    }
+
+    // ---------------------------------------------------------
+    // 8. MENSALIDADES DA CORRENTE
+    // ---------------------------------------------------------
+    function initMonthSelect() {
+      const sel = document.getElementById('fee-month-select');
+      if (!sel) return;
+      sel.innerHTML = MONTH_OPTIONS.map(m => `<option value="${m.value}">${m.label}</option>`).join('');
+      sel.value = '2026-11';
+    }
+
+    function updateFeeDisplays() {
+      const formatted = formatCurrency(appState.feeConfig.amount);
+      const elDisplay = document.getElementById('display-fee-amount');
+      const elMobile = document.getElementById('mobile-fee-tag');
+      const elDrawer = document.getElementById('drawer-fee-value');
+      const elPix = document.getElementById('display-pix-key');
+      const elHolder = document.getElementById('display-pix-holder');
+
+      if (elDisplay) elDisplay.textContent = formatted;
+      if (elMobile) elMobile.textContent = formatted;
+      if (elDrawer) elDrawer.textContent = formatted;
+      if (elPix) elPix.textContent = appState.feeConfig.pixKey;
+      if (elHolder) elHolder.textContent = `Favorecido: ${appState.feeConfig.pixHolder}`;
+    }
+
+    function copyPixKey() {
+      const key = appState.feeConfig.pixKey;
+      const tempInput = document.createElement('input');
+      tempInput.value = key;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast('Chave PIX copiada para a área de transferência!', 'success');
+    }
+
+    function openFeeConfigModal() {
+      if (!isLeader(currentUser)) return;
+      document.getElementById('config-fee-value').value = appState.feeConfig.amount;
+      document.getElementById('config-pix-key').value = appState.feeConfig.pixKey;
+      document.getElementById('config-pix-holder').value = appState.feeConfig.pixHolder;
+      openModal('fee-config-modal');
+    }
+
+    function saveFeeConfig(e) {
+      e.preventDefault();
+      if (!isLeader(currentUser)) return;
+      appState.feeConfig.amount = parseFloat(document.getElementById('config-fee-value').value) || 0;
+      appState.feeConfig.pixKey = document.getElementById('config-pix-key').value.trim();
+      appState.feeConfig.pixHolder = document.getElementById('config-pix-holder').value.trim();
+      saveState();
+      updateFeeDisplays();
+      renderMensalidades();
+      closeModal('fee-config-modal');
+      showToast('Configurações de mensalidade e PIX atualizadas!', 'success');
+    }
+
+    function getPaymentRecord(userId, monthKey) {
+      const key = `${userId}_${monthKey}`;
+      return appState.payments[key] || { status: 'pendente', note: '', method: '' };
+    }
+
+    function renderMensalidades() {
+      const container = document.getElementById('mensalidades-content');
+      if (!container) return;
+
+      const monthKey = document.getElementById('fee-month-select')?.value || '2026-11';
+      const monthObj = MONTH_OPTIONS.find(m => m.value === monthKey) || { label: monthKey };
+
+      if (!currentUser) {
+        container.innerHTML = `
+          <div class="bg-[#131318] rounded-3xl p-8 red-gold-border text-center space-y-4 max-w-2xl mx-auto">
+            <h3 class="font-serif text-xl font-bold text-white">Área Restrita aos Membros da Corrente</h3>
+            <p class="text-sm text-zinc-400">
+              Faça login com sua conta cadastrada para consultar sua situação mensal, informar pagamento via PIX ou gerenciar os recebimentos da casa.
+            </p>
+            <div class="flex justify-center gap-3 pt-2">
+              <button onclick="openTopAuthModal('login')" class="px-5 py-2.5 rounded-xl bg-red-800 hover:bg-red-700 text-white text-xs font-semibold transition">
+                Entrar na Conta
+              </button>
+              <button onclick="openTopAuthModal('register')" class="px-5 py-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 text-xs font-semibold transition">
+                Cadastrar na Corrente
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (isLeader(currentUser)) {
+        const members = appState.users;
+        if (members.length === 0) {
+          container.innerHTML = `
+            <div class="bg-[#131318] rounded-2xl p-8 red-gold-border text-center text-sm text-zinc-400">
+              Nenhum membro cadastrado na corrente ainda. Assim que os filhos da casa realizarem o cadastro, eles aparecerão aqui para controle de mensalidades.
+            </div>
+          `;
+          return;
+        }
+
+        const paidCount = members.filter(u => getPaymentRecord(u.id, monthKey).status === 'pago').length;
+        container.innerHTML = `
+          <div class="bg-[#131318] rounded-2xl p-6 red-gold-border space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-4">
+              <div>
+                <h3 class="font-serif text-lg font-bold text-white">Controle Geral — ${escapeHtml(monthObj.label)}</h3>
+                <p class="text-xs text-zinc-400">Acompanhe e confirme os pagamentos da corrente.</p>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-700/50 text-xs font-semibold">
+                ${paidCount} de ${members.length} quitados
+              </span>
+            </div>
+            <div class="space-y-3">
+              ${members.map(u => {
+                const rec = getPaymentRecord(u.id, monthKey);
+                let badge = '<span class="px-2.5 py-1 rounded-full bg-red-950 text-red-300 border border-red-800/50 text-[11px] font-semibold">Pendente</span>';
+                if (rec.status === 'pago') {
+                  badge = '<span class="px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-700/50 text-[11px] font-semibold">Pago</span>';
+                } else if (rec.status === 'informado') {
+                  badge = '<span class="px-2.5 py-1 rounded-full bg-amber-950 text-amber-300 border border-amber-700/50 text-[11px] font-semibold">Aguardando Conferência</span>';
+                }
+
+                return `
+                  <div class="p-4 rounded-2xl bg-zinc-950/90 border border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <strong class="text-sm text-white">${escapeHtml(u.name)}</strong>
+                        <span class="text-[11px] text-amber-400">• ${escapeHtml(u.role)}</span>
+                      </div>
+                      ${rec.note ? `<p class="text-xs text-zinc-400 mt-1">Comprovante (${escapeHtml(rec.method)}): ${escapeHtml(rec.note)}</p>` : ''}
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                      ${badge}
+                      <button onclick="toggleMemberPaymentStatus('${escapeHtml(u.id)}', '${escapeHtml(monthKey)}')" class="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs text-white font-semibold transition">
+                        ${rec.status === 'pago' ? 'Marcar Pendente' : 'Confirmar Pago'}
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        const rec = getPaymentRecord(currentUser.id, monthKey);
+        let statusBanner = `
+          <div class="p-4 rounded-2xl bg-red-950/40 border border-red-800/50 flex items-center justify-between gap-3">
+            <div>
+              <span class="block text-xs uppercase tracking-wider text-red-300 font-semibold">Situação em ${escapeHtml(monthObj.label)}</span>
+              <strong class="text-base text-white">Mensalidade Pendente (${formatCurrency(appState.feeConfig.amount)})</strong>
+            </div>
+            <button onclick="openPaymentProofModal()" class="px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold shrink-0 transition">
+              Informar Pagamento
+            </button>
+          </div>
+        `;
+        if (rec.status === 'informado') {
+          statusBanner = `
+            <div class="p-4 rounded-2xl bg-amber-950/40 border border-amber-700/50 space-y-1">
+              <span class="block text-xs uppercase tracking-wider text-amber-300 font-semibold">Pagamento Informado • Aguardando Conferência da Chefia</span>
+              <p class="text-xs text-zinc-300">${escapeHtml(rec.method)}: ${escapeHtml(rec.note)}</p>
+            </div>
+          `;
+        } else if (rec.status === 'pago') {
+          statusBanner = `
+            <div class="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-700/50 space-y-1">
+              <span class="block text-xs uppercase tracking-wider text-emerald-300 font-semibold">Mensalidade Quitada em ${escapeHtml(monthObj.label)}</span>
+              <p class="text-xs text-zinc-300">Agradecemos sua colaboração com a manutenção da Casa de Umbanda C.E.U. Eparrey.</p>
+            </div>
+          `;
+        }
+
+        container.innerHTML = `
+          <div class="bg-[#131318] rounded-2xl p-6 red-gold-border space-y-4">
+            <h3 class="font-serif text-lg font-bold text-white">Minha Contribuição — ${escapeHtml(currentUser.name)}</h3>
+            ${statusBanner}
+          </div>
+        `;
+      }
+    }
+
+    function toggleMemberPaymentStatus(userId, monthKey) {
+      if (!isLeader(currentUser)) return;
+      const key = `${userId}_${monthKey}`;
+      const current = getPaymentRecord(userId, monthKey);
+      appState.payments[key] = {
+        ...current,
+        status: current.status === 'pago' ? 'pendente' : 'pago'
+      };
+      saveState();
+      renderMensalidades();
+      showToast('Status da mensalidade atualizado.', 'success');
+    }
+
+    function openPaymentProofModal() {
+      if (!currentUser) return;
+      const monthKey = document.getElementById('fee-month-select')?.value || '2026-11';
+      const monthObj = MONTH_OPTIONS.find(m => m.value === monthKey) || { label: monthKey };
+      document.getElementById('proof-month-label').textContent = monthObj.label;
+      document.getElementById('proof-amount-label').textContent = formatCurrency(appState.feeConfig.amount);
+      document.getElementById('proof-note').value = '';
+      openModal('payment-proof-modal');
+    }
+
+    function submitPaymentProof(e) {
+      e.preventDefault();
+      if (!currentUser) return;
+      const monthKey = document.getElementById('fee-month-select')?.value || '2026-11';
+      const key = `${currentUser.id}_${monthKey}`;
+      appState.payments[key] = {
+        status: 'informado',
+        method: document.getElementById('proof-method').value,
+        note: document.getElementById('proof-note').value.trim()
+      };
+      saveState();
+      renderMensalidades();
+      closeModal('payment-proof-modal');
+      showToast('Comprovante informado à chefia com sucesso!', 'success');
+    }
+
+    // ---------------------------------------------------------
+    // 9. PAINEL ADMINISTRATIVO (PAIS DA CASA E PAIS MENORES)
+    // ---------------------------------------------------------
+    function renderAdminSection() {
+      const deniedScreen = document.getElementById('admin-denied-screen');
+      const lockScreen = document.getElementById('admin-lock-screen');
+      const dashboard = document.getElementById('admin-dashboard-content');
+
+      if (!isHouseParent(currentUser)) {
+        deniedScreen.classList.remove('hidden');
+        lockScreen.classList.add('hidden');
+        dashboard.classList.add('hidden');
+        return;
+      }
+
+      deniedScreen.classList.add('hidden');
+
+      if (!isAdminUnlocked) {
+        lockScreen.classList.remove('hidden');
+        dashboard.classList.add('hidden');
+      } else {
+        lockScreen.classList.add('hidden');
+        dashboard.classList.remove('hidden');
+        renderLeadershipPasswordFields();
+        renderAdminMembersList();
+      }
+    }
+
+    function unlockAdminPanel(e) {
+      e.preventDefault();
+      if (!isHouseParent(currentUser)) return;
+      const pass = document.getElementById('master-password-input').value;
+      if (pass === appState.masterPassword) {
+        isAdminUnlocked = true;
+        e.target.reset();
+        renderAdminSection();
+        showToast('Painel Administrativo desbloqueado!', 'success');
+      } else {
+        showToast('Senha Mestra incorreta.', 'error');
+      }
+    }
+
+    function lockAdminPanel() {
+      isAdminUnlocked = false;
+      renderAdminSection();
+      showToast('Painel Administrativo bloqueado.', 'info');
+    }
+
+    function toggleRevealRolePasswords() {
+      revealRolePasswords = !revealRolePasswords;
+      const btn = document.getElementById('btn-reveal-passwords');
+      if (btn) btn.textContent = revealRolePasswords ? 'Ocultar Senhas' : 'Mostrar Senhas';
+      renderLeadershipPasswordFields();
+    }
+
+    function renderLeadershipPasswordFields() {
+      const container = document.getElementById('leadership-passwords-fields');
+      if (!container) return;
+      const inputType = revealRolePasswords ? 'text' : 'password';
+      container.innerHTML = LEADERSHIP_ROLES.map((role, idx) => `
+        <div class="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1.5">
+          <label for="role-pass-${idx}" class="block text-xs font-semibold text-amber-300">${escapeHtml(role)}</label>
+          <input
+            type="${inputType}"
+            id="role-pass-${idx}"
+            data-role-name="${escapeHtml(role)}"
+            value="${escapeHtml(appState.rolePasswords[role] || '')}"
+            required
+            class="w-full px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700 text-xs text-white focus:outline-none focus:border-amber-500"
+          />
+        </div>
+      `).join('');
+    }
+
+    function saveLeadershipPasswords(e) {
+      e.preventDefault();
+      if (!isHouseParent(currentUser) || !isAdminUnlocked) return;
+      document.querySelectorAll('#leadership-passwords-fields input').forEach(inp => {
+        const roleName = inp.dataset.roleName;
+        if (roleName) {
+          appState.rolePasswords[roleName] = inp.value;
+        }
+      });
+      saveState();
+      showToast('Senhas especiais dos cargos de chefia atualizadas!', 'success');
+    }
+
+    function changeMasterPassword(e) {
+      e.preventDefault();
+      if (!isHouseParent(currentUser) || !isAdminUnlocked) return;
+      const p1 = document.getElementById('new-master-password').value;
+      const p2 = document.getElementById('confirm-master-password').value;
+      if (p1 !== p2) {
+        showToast('As senhas mestras digitadas não coincidem.', 'error');
+        return;
+      }
+      appState.masterPassword = p1;
+      saveState();
+      e.target.reset();
+      showToast('Senha Mestra atualizada com sucesso!', 'success');
+    }
+
+    function handleCrestUpload(e) {
+      if (!isHouseParent(currentUser) || !isAdminUnlocked) return;
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        appState.crestImage = evt.target.result;
+        saveState();
+        applyCrestImage();
+        showToast('Brasão oficial atualizado!', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetDefaultCrest() {
+      if (!isHouseParent(currentUser) || !isAdminUnlocked) return;
+      appState.crestImage = OFFICIAL_CREST_IMAGE;
+      saveState();
+      applyCrestImage();
+      showToast('Brasão oficial padrão restaurado.', 'info');
+    }
+
+    function renderAdminMembersList() {
+      const listEl = document.getElementById('admin-members-list');
+      const countEl = document.getElementById('admin-members-count');
+      if (!listEl) return;
+
+      const users = appState.users;
+      if (countEl) {
+        countEl.textContent = `${users.length} ${users.length === 1 ? 'membro cadastrado' : 'membros cadastrados'}`;
+      }
+
+      if (users.length === 0) {
+        listEl.innerHTML = `
+          <div class="p-6 rounded-xl bg-zinc-950 border border-zinc-800 text-center text-xs text-zinc-400">
+            Nenhum membro cadastrado no sistema no momento.
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = users.map(u => `
+        <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <strong class="text-sm text-white block">${escapeHtml(u.name)}</strong>
+            <span class="text-xs text-zinc-400">${escapeHtml(u.email)} • <span class="text-amber-300">${escapeHtml(u.role)}${u.subRole ? ` (${escapeHtml(u.subRole)})` : ''}</span></span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <input type="text" id="reset-pass-${escapeHtml(u.id)}" placeholder="Nova senha" class="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-700 text-xs text-white w-32 focus:outline-none focus:border-amber-500" />
+            <button type="button" onclick="resetMemberPasswordByParent('${escapeHtml(u.id)}')" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-semibold transition">
+              Salvar Senha
+            </button>
+            <button type="button" onclick="removeMemberByParent('${escapeHtml(u.id)}')" class="px-3 py-1.5 rounded-lg bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-800/60 text-xs font-semibold transition">
+              Remover
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function resetMemberPasswordByParent(userId) {
+      if (!isHouseParent(currentUser) || !isAdminUnlocked) return;
+      const input = document.getElementById(`reset-pass-${userId}`);
+      const newPass = (input?.value || '').trim();
+      if (newPass.length < 4) {
+        showToast('A nova senha deve ter pelo menos 4 caracteres.', 'error');
+        return;
+      }
+      const member = appState.users.find(u => u.id === userId);
+      if (!member) return;
+      member.password = newPass;
+      saveState();
+      input.value = '';
+      showToast(`Senha de ${member.name} atualizada com sucesso!`, 'success');
+    }
+
+    function removeMemberByParent(userId) {
+      if (!isHouseParent(currentUser) || !isAdminUnlocked) return;
+      if (currentUser && currentUser.id === userId) {
+        showToast('Você não pode remover sua própria conta enquanto estiver conectado.', 'error');
+        return;
+      }
+      const member = appState.users.find(u => u.id === userId);
+      appState.users = appState.users.filter(u => u.id !== userId);
+      saveState();
+      renderAdminMembersList();
+      renderMensalidades();
+      showToast(`Cadastro de ${member ? member.name : 'membro'} removido.`, 'info');
+    }
+
+    function clearAllRegistrations() {
+      if (!isHouseParent(currentUser) || !isAdminUnlocked) return;
+      appState.users = [];
+      appState.payments = {};
+      saveState();
+      currentUser = null;
+      isAdminUnlocked = false;
+      updateRoleVisibility();
+      renderMensalidades();
+      renderAdminSection();
+      showToast('Todos os cadastros foram removidos com sucesso.', 'info');
+    }
+
+    // ---------------------------------------------------------
+    // 10. INITIALIZATION
+    // ---------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      applyCrestImage();
+      renderLiveStatus();
+      initMonthSelect();
+      updateFeeDisplays();
+      updateRoleVisibility();
+      renderNotices();
+      renderGuias();
+      renderMensalidades();
+      switchTab('inicio');
+    });
+  </script>
+</body>
+</html>
